@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/10 15:39:16 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/03/10 18:15:33 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef	struct	s_player {
 	double		plane_y;
 	double		time;
 	double		old_time;
+	double		movement_speed;
+	double		rotation_speed;
 	t_keys		*keys;
 }				t_player;
 
@@ -59,6 +61,7 @@ typedef struct	s_ray {
 typedef struct  s_data {
 	void		*mlx_ptr;
 	void		*mlx_win;
+	void		*mlx_img;
 	t_player	*player;
 }				t_data;
 

@@ -14,7 +14,7 @@ ${NAME}:	${OBJS}
 			${MAKE} -C ./libft
 			mv ./minilibx/libmlx.a .
 			mv ./libft/libft.a .
-			${CC} -fsanitize=address -g -o ${NAME} ${OBJS} ${FRAMEWORK}
+			${CC} -o ${NAME} ${OBJS} ${FRAMEWORK}
 			
 
 all:		${NAME}
