@@ -1,4 +1,4 @@
-SRCS		= cub3d.c cub3d_events.c cub3d_misc.c ./get_next_line/get_next_line.c
+SRCS		= cub3d.c cub3d_events.c cub3d_misc.c raycasting.c ./get_next_line/get_next_line.c
 OBJS		= ${SRCS:.c=.o}
 NAME		= cub3d
 CC			= cc
@@ -14,7 +14,7 @@ ${NAME}:	${OBJS}
 			${MAKE} -C ./libft
 			mv ./minilibx/libmlx.a .
 			mv ./libft/libft.a .
-			${CC} -o ${NAME} ${OBJS} ${FRAMEWORK}
+			${CC} -fsanitize=address -g -o ${NAME} ${OBJS} ${FRAMEWORK}
 			
 
 all:		${NAME}
