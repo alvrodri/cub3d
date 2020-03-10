@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:24:33 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/10 18:29:55 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/03/10 18:43:29 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,16 @@ int   ft_loop(t_data *data)
 	
 	if (data->player->keys->w == 1)
 	{
-		if (mapa[(int)(data->player->pos_x + data->player->dir_x * 0.2)][(int)data->player->pos_y] == 0)
+		if (mapa[(int)(data->player->pos_x + data->player->dir_x * 0.2)][(int)data->player->pos_y] == 0)			
 			data->player->pos_x += data->player->dir_x * 0.2;
-		if (mapa[(int)data->player->pos_y][(int)(data->player->pos_y + data->player->dir_y * 0.2)] == 0)
-			data->player->pos_y += data->player->dir_y;
+		if (mapa[(int)data->player->pos_x][(int)(data->player->pos_y + data->player->dir_y * 0.2)] == 0)
+			data->player->pos_y += data->player->dir_y * 0.2;
 	}
 	if (data->player->keys->s == 1)
 	{
 		if (mapa[(int)(data->player->pos_x - data->player->dir_x * 0.2)][(int)data->player->pos_y] == 0)
 			data->player->pos_x -= data->player->dir_x * 0.2;
-		if (mapa[(int)data->player->pos_y][(int)(data->player->pos_y - data->player->dir_y * 0.2)] == 0)
+		if (mapa[(int)data->player->pos_x][(int)(data->player->pos_y - data->player->dir_y * 0.2)] == 0)
 			data->player->pos_y -= data->player->dir_y * 0.2;
 	}
 	double rotation = 0.035;
