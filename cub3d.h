@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
+
 # define CUB3D_H
 # define WIDTH 1024
 # define HEIGHT 768
+
 # include "./minilibx/mlx.h"
 # include "./libft/libft.h"
 # include "unistd.h"
@@ -26,6 +28,8 @@ typedef	struct	s_keys {
 	int			a;
 	int			s;
 	int			d;
+	int			shift;
+	int			space;
 }				t_keys;
 
 typedef	struct	s_player {
@@ -65,11 +69,17 @@ typedef struct  s_data {
 	t_player	*player;
 }				t_data;
 
-int		ft_close(t_data *data);
-int		ft_handle_key_press(int keycode, t_data *data);
-int		ft_handle_key_release(int keycode, t_data *data);
-void    ft_start_raycasting(int x, t_data *data, t_ray *ray);
-void	ft_throw_ray(t_data *data, t_ray *ray);
-void	ft_check_hits(t_data *data, t_ray *ray);
+unsigned	int	ft_get_color(t_ray *ray, int map[24][24]);
+int				ft_close(t_data *data);
+int				ft_handle_key_press(int keycode, t_data *data);
+int				ft_handle_key_release(int keycode, t_data *data);
+void    		ft_start_raycasting(int x, t_data *data, t_ray *ray);
+void			ft_throw_ray(t_data *data, t_ray *ray);
+void			ft_check_hits(t_data *data, t_ray *ray, int map[24][24]);
+void			ft_move_forward(t_data *data, int map[24][24]);
+void			ft_move_backwards(t_data *data, int map[24][24]);
+void			ft_rotate_right(t_data *data);
+void			ft_rotate_left(t_data *data);
+void			ft_send_instructions(t_data *data);
 
 #endif
