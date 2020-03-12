@@ -23,14 +23,14 @@ int				ft_close(t_data *data)
 	return (1);
 }
 
-unsigned	int	ft_get_color(t_ray *ray, int map[24][24])
+unsigned	int	ft_get_color(int x, int y, int map[24][24])
 {
-	if (map[ray->map_x][ray->map_y] == 1)
+	if (map[x][y] == 1)
 		return (0x999999);
-	else if (map[ray->map_x][ray->map_y] == 2)
+	else if (map[x][y] == 2)
 		return (0x624A2E);
 	else
-		return (0x000000);
+		return (0xFFFFFF);
 }
 
 void	ft_send_instructions(t_data *data)
@@ -48,6 +48,13 @@ void	ft_send_instructions(t_data *data)
 	mlx_string_put(data->mlx_ptr, data->mlx_win, 50, 45, keys->d ? 0xFF0000 : 0xFFFF00, "D");
 	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 55, 0xFFFF00, "Run: ");
 	mlx_string_put(data->mlx_ptr, data->mlx_win, 40, 55, keys->shift ? 0xFF0000 : 0xFFFF00, "SHIFT");
-	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 65, 0xFFFF00, "Jump: ");
-	mlx_string_put(data->mlx_ptr, data->mlx_win, 40, 65, keys->space ? 0xFF0000 : 0xFFFF00, "SPACE");
+}
+
+void	ft_draw_pixel(t_data *data, int x, int y, unsigned int color)
+{
+	int	bits_per_pixel;
+	int	size_line;
+	int	endian;
+
+	((int *)mlx_get_data_addr(data->mlx_img, &bits_per_pixel, &size_line, &endian))[y * WIDTH + x] = color;
 }

@@ -28,8 +28,9 @@ typedef	struct	s_keys {
 	int			a;
 	int			s;
 	int			d;
+	int			up;
+	int			down;
 	int			shift;
-	int			space;
 }				t_keys;
 
 typedef	struct	s_player {
@@ -39,10 +40,9 @@ typedef	struct	s_player {
 	double		dir_y;
 	double		plane_x;
 	double		plane_y;
-	double		time;
-	double		old_time;
 	double		movement_speed;
 	double		rotation_speed;
+	double		pitch;
 	t_keys		*keys;
 }				t_player;
 
@@ -69,7 +69,7 @@ typedef struct  s_data {
 	t_player	*player;
 }				t_data;
 
-unsigned	int	ft_get_color(t_ray *ray, int map[24][24]);
+unsigned	int	ft_get_color(int x, int y, int map[24][24]);
 int				ft_close(t_data *data);
 int				ft_handle_key_press(int keycode, t_data *data);
 int				ft_handle_key_release(int keycode, t_data *data);
@@ -81,5 +81,5 @@ void			ft_move_backwards(t_data *data, int map[24][24]);
 void			ft_rotate_right(t_data *data);
 void			ft_rotate_left(t_data *data);
 void			ft_send_instructions(t_data *data);
-
+void			ft_draw_pixel(t_data *data, int x, int y, unsigned int color);
 #endif
