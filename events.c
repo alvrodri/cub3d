@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_events.c                                     :+:      :+:    :+:   */
+/*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:16:34 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/10 15:40:51 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/03/12 19:51:13 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		ft_handle_key_press(int keycode, t_data *data)
 int		ft_handle_key_release(int keycode, t_data *data)
 {
 	if (keycode == ESC)
-		return (ft_close(data));
+		return (ft_close(data, 0));
 	else if (keycode == W)
 		data->player->keys->w = 0;
 	else if (keycode == A || keycode == LEFT)

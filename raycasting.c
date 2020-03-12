@@ -14,7 +14,7 @@
 
 void    ft_start_raycasting(int x, t_data *data, t_ray *ray)
 {
-	ray->camera_x = 2 * x / (double) WIDTH - 1;
+	ray->camera_x = 2 * x / (double) data->width - 1;
 	ray->dir_x = data->player->dir_x + data->player->plane_x * ray->camera_x;
 	ray->dir_y = data->player->dir_y + data->player->plane_y * ray->camera_x;
 	ray->map_x = (int) data->player->pos_x;

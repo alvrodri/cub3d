@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:24:33 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/10 18:43:29 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/03/12 20:11:07 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int map[24][24] =
 
 void	init(t_data *data)
 {
+	data->map = malloc(sizeof(t_map));
 	data->player = malloc(sizeof(t_player));
 	data->player->keys = malloc(sizeof(t_keys));
 	data->player->keys->w = 0;
@@ -81,19 +82,19 @@ int   ft_loop(t_data *data)
 		data->player->pitch += 5;
 	if (data->player->keys->down && data->player->pitch >= -180)
 		data->player->pitch -= 5;
-	while (x < WIDTH)
+	while (x < data->width)
 	{
 		t_ray ray;
 
 		ft_start_raycasting(x, data, &ray);
 		ft_throw_ray(data, &ray);
 		ft_check_hits(data, &ray, map);
-		int draw_start = -(HEIGHT / ray.wall_distance) / 2 + data->player->pitch + HEIGHT / 2;
+		int draw_start = -(data->height / ray.wall_distance) / 2 + data->player->pitch + data->height / 2;
 		if (draw_start < 0)
 			draw_start = 0;
-		int draw_end = (HEIGHT / ray.wall_distance) / 2 +  data->player->pitch + HEIGHT / 2;
-		if (draw_end >= HEIGHT)
-			draw_end = HEIGHT - 1;
+		int draw_end = (data->height / ray.wall_distance) / 2 +  data->player->pitch + data->height / 2;
+		if (draw_end >= data->height)
+			draw_end = data->height - 1;
 		int j = 0;
 		while (j < draw_start)
 		{
@@ -107,7 +108,7 @@ int   ft_loop(t_data *data)
 			i++;
 		}
 		j = draw_end;
-		while (j < HEIGHT)
+		while (j < data->height)
 		{
 			ft_draw_pixel(data, x, j, j % 2 == 0 ? 0x008000 : 0x006600);
 			j++;
@@ -118,15 +119,17 @@ int   ft_loop(t_data *data)
 	return (1);
 }
 
-int		main(void)
+int		main(int args_n, char **args)
 {
 	t_data	data;
-
 	
-	data.mlx_ptr = mlx_init();
-	data.mlx_win = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT, "cub3d");
-	data.mlx_img = mlx_new_image(data.mlx_ptr, WIDTH, HEIGHT);
+	if (args_n != 2)
+		return (ft_close(&data, 1));
+	ft_parse_map(&data, args[1]);
 	init(&data);
+	data.mlx_ptr = mlx_init();
+	data.mlx_win = mlx_new_window(data.mlx_ptr, data.width, data.height, "cub3d");
+	data.mlx_img = mlx_new_image(data.mlx_ptr, data.width, data.height);
 	mlx_hook(data.mlx_win, 02, 1L << 0, ft_handle_key_press, &data);
 	mlx_hook(data.mlx_win, 03, 1L << 1, ft_handle_key_release, &data);
 	mlx_hook(data.mlx_win, 17, 1L << 0, ft_close, &data);
