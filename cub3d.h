@@ -6,7 +6,7 @@
 /*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/12 20:11:34 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/03/12 22:19:56 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,18 @@ typedef struct	s_map {
 	int			size;
 }				t_map;
 
+typedef struct	s_textures {
+	int			floor;
+	int			ceiling;
+}				t_textures;
+
 typedef struct  s_data {
 	void		*mlx_ptr;
 	void		*mlx_win;
 	void		*mlx_img;
 	int			width;
 	int			height;
+	t_textures	*textures;
 	t_map		*map;
 	t_player	*player;
 }				t_data;

@@ -6,7 +6,7 @@
 /*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/12 20:12:01 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/03/14 19:19:22 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ unsigned	int	ft_get_color(int x, int y, int map[24][24])
 		return (0x999999);
 	else if (map[x][y] == 2)
 		return (0x624A2E);
+	else if (map[x][y] == 3)
+		return (0x0000FF);
 	else
 		return (0xFFFFFF);
 }

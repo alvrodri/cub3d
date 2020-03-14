@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_movement.c                                   :+:      :+:    :+:   */
+/*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/09 16:39:10 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/03/14 19:33:40 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void    ft_move_forward(t_data *data, int map[24][24])
 	double	movement_speed;
 
 	movement_speed = data->player->movement_speed;
-	(data->player->keys->shift ? movement_speed *= 1.5 : 0);
+	(data->player->keys->shift ? movement_speed *= 1.85 : 0);
 	if (map[(int)(data->player->pos_x + data->player->dir_x * movement_speed)]
 	[(int)data->player->pos_y] == 0)			
 		data->player->pos_x += data->player->dir_x * movement_speed;

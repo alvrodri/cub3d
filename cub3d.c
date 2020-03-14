@@ -6,7 +6,7 @@
 /*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:24:33 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/12 20:11:07 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/03/14 19:32:53 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int map[24][24] =
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -42,6 +42,7 @@ int map[24][24] =
 
 void	init(t_data *data)
 {
+	data->textures = malloc(sizeof(t_textures));
 	data->map = malloc(sizeof(t_map));
 	data->player = malloc(sizeof(t_player));
 	data->player->keys = malloc(sizeof(t_keys));
@@ -53,8 +54,8 @@ void	init(t_data *data)
 	data->player->keys->down = 0;
 	data->player->dir_x = -1;
 	data->player->dir_y = 0;
-	data->player->pos_x = 12;
-	data->player->pos_y = 12;
+	data->player->pos_x = 16;
+	data->player->pos_y = 9;
 	data->player->plane_x = 0;
 	data->player->plane_y = 0.7;
 	data->player->movement_speed = 0.015;
@@ -64,6 +65,7 @@ void	init(t_data *data)
 
 int   ft_loop(t_data *data)
 {
+	static	int	shifted;
 	int bits_per_pixel;
 	int	size_line;
 	int	endian;
@@ -82,6 +84,19 @@ int   ft_loop(t_data *data)
 		data->player->pitch += 5;
 	if (data->player->keys->down && data->player->pitch >= -180)
 		data->player->pitch -= 5;
+	if (data->player->keys->shift)
+	{
+		if (shifted)
+		{
+			data->player->pitch -= 2.5;
+			shifted = 0;
+		}
+		else
+		{
+			data->player->pitch += 2.5;
+			shifted = 1;
+		}
+	}
 	while (x < data->width)
 	{
 		t_ray ray;
@@ -98,7 +113,7 @@ int   ft_loop(t_data *data)
 		int j = 0;
 		while (j < draw_start)
 		{
-			ft_draw_pixel(data, x, j, 0x87CEEB);
+			ft_draw_pixel(data, x, j, data->textures->ceiling);
 			j++;
 		}
 		int i = draw_start;
@@ -110,7 +125,7 @@ int   ft_loop(t_data *data)
 		j = draw_end;
 		while (j < data->height)
 		{
-			ft_draw_pixel(data, x, j, j % 2 == 0 ? 0x008000 : 0x006600);
+			ft_draw_pixel(data, x, j, data->textures->floor);
 			j++;
 		}
 		x++;
@@ -125,8 +140,8 @@ int		main(int args_n, char **args)
 	
 	if (args_n != 2)
 		return (ft_close(&data, 1));
-	ft_parse_map(&data, args[1]);
 	init(&data);
+	ft_parse_map(&data, args[1]);
 	data.mlx_ptr = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx_ptr, data.width, data.height, "cub3d");
 	data.mlx_img = mlx_new_image(data.mlx_ptr, data.width, data.height);

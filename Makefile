@@ -15,7 +15,6 @@ ${NAME}:	${OBJS}
 			mv ./minilibx/libmlx.a .
 			mv ./libft/libft.a .
 			${CC} -o ${NAME} ${OBJS} ${FRAMEWORK}
-			
 
 all:		${NAME}
 
