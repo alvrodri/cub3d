@@ -6,11 +6,21 @@
 /*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/14 19:33:40 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/03/16 18:15:22 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	ft_mouse(t_data *data)
+{
+	t_mouse *mouse;
+	
+	mouse = data->player->mouse;
+	mlx_mouse_get_pos(data->mlx_win, mouse->x, mouse->y);
+	(mouse->last_x == -1 ? mouse->last_x = mouse->x : 0);
+	(mouse->last_x == -1 ? mouse->last_y = mouse->y : 0);
+}
 
 void    ft_move_forward(t_data *data, int map[24][24])
 {

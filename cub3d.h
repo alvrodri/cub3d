@@ -6,7 +6,7 @@
 /*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/12 22:19:56 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/03/16 18:08:06 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ typedef	struct	s_keys {
 	int			shift;
 }				t_keys;
 
+typedef struct	s_mouse {
+	int			x;
+	int			y;
+	int			last_x;
+	int			last_y;
+}				t_mouse;
+
 typedef	struct	s_player {
 	double		pos_x;
 	double		pos_y;
@@ -43,6 +50,7 @@ typedef	struct	s_player {
 	double		rotation_speed;
 	double		pitch;
 	t_keys		*keys;
+	t_mouse		*mouse;
 }				t_player;
 
 typedef struct	s_ray {

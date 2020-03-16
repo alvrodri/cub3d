@@ -6,7 +6,7 @@
 /*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:24:33 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/14 19:32:53 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/03/16 18:15:04 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ void	init(t_data *data)
 	data->map = malloc(sizeof(t_map));
 	data->player = malloc(sizeof(t_player));
 	data->player->keys = malloc(sizeof(t_keys));
+	data->player->mouse = malloc(sizeof(t_mouse));
+	data->player->mouse->last_x = -1;
+	data->player->mouse->last_y = -1;
 	data->player->keys->w = 0;
 	data->player->keys->a = 0;
 	data->player->keys->s = 0;
