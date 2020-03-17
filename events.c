@@ -12,15 +12,15 @@
 
 #include "cub3d.h"
 
-#define W 119
+#define W 13
 //macos: 13
-#define A 97
+#define A 0
 //macos: 0
-#define S 115
+#define S 1
 //macos: 1
-#define D 100
+#define D 2
 //macos: 2
-#define ESC 65307
+#define ESC 53
 //macos: 53
 #define SHIFT 65505
 #define UP 65362

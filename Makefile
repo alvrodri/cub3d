@@ -4,7 +4,7 @@ NAME		= cub3d
 CC			= cc
 RM			= rm -f
 CFLAGS		= #-Wall -Werror -Wextra
-FRAMEWORK	= -L . -lm -lmlx -lXext -lX11 -lft -lpthread
+FRAMEWORK	= -L . -lmlx -lft -framework OpenGL -framework AppKit
 
 .c.o:
 			${CC} ${CFLAGS} -g -c $< -o ${<:.c=.o}

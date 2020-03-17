@@ -16,6 +16,7 @@ int				ft_close(t_data *data, int error)
 {
 	if (error)
 		write(1, "Error\n", 6);
+	mlx_mouse_show();
 	exit(1);
 	return (1);
 }

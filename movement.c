@@ -15,11 +15,22 @@
 void	ft_mouse(t_data *data)
 {
 	t_mouse *mouse;
-	
+	int	x_diff;
+	int	y_diff;
+
 	mouse = data->player->mouse;
-	mlx_mouse_get_pos(data->mlx_win, mouse->x, mouse->y);
+	mlx_mouse_get_pos(data->mlx_win, &mouse->x, &mouse->y);
 	(mouse->last_x == -1 ? mouse->last_x = mouse->x : 0);
 	(mouse->last_x == -1 ? mouse->last_y = mouse->y : 0);
+	x_diff = mouse->x - mouse->last_x;
+	y_diff = mouse->y - mouse->last_y;
+	if (x_diff)
+		x_diff > 0 ? ft_rotate_right(data) : ft_rotate_left(data);
+	if (y_diff)
+		data->player->pitch += y_diff < 0 ? 10 : -10;  
+	mlx_mouse_move(data->mlx_win, 500, 500);
+	mouse->last_x = 500;
+	mouse->last_y = 500;
 }
 
 void    ft_move_forward(t_data *data, int map[24][24])

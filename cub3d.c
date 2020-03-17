@@ -62,7 +62,7 @@ void	init(t_data *data)
 	data->player->plane_x = 0;
 	data->player->plane_y = 0.7;
 	data->player->movement_speed = 0.015;
-	data->player->rotation_speed = 0.01;
+	data->player->rotation_speed = 0.1;
 	data->player->pitch = 0;
 }
 
@@ -82,6 +82,7 @@ int   ft_loop(t_data *data)
 		ft_rotate_right(data);
 	if (data->player->keys->a)
 		ft_rotate_left(data);
+	ft_mouse(data);
 	x = 0;
 	if (data->player->keys->up && data->player->pitch <= 180)
 		data->player->pitch += 5;
@@ -148,6 +149,7 @@ int		main(int args_n, char **args)
 	data.mlx_ptr = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx_ptr, data.width, data.height, "cub3d");
 	data.mlx_img = mlx_new_image(data.mlx_ptr, data.width, data.height);
+	mlx_mouse_hide();
 	mlx_hook(data.mlx_win, 02, 1L << 0, ft_handle_key_press, &data);
 	mlx_hook(data.mlx_win, 03, 1L << 1, ft_handle_key_release, &data);
 	mlx_hook(data.mlx_win, 17, 1L << 0, ft_close, &data);
