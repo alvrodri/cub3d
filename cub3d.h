@@ -77,6 +77,7 @@ typedef struct	s_map {
 typedef struct	s_textures {
 	int			floor;
 	int			ceiling;
+	void		*gun;
 }				t_textures;
 
 typedef struct  s_data {
@@ -105,5 +106,6 @@ void			ft_rotate_right(t_data *data);
 void			ft_rotate_left(t_data *data);
 void			ft_send_instructions(t_data *data);
 void			ft_draw_pixel(t_data *data, int x, int y, unsigned int color);
+void			ft_draw_crosshair(t_data *data);
 void			ft_mouse(t_data *data);
 #endif

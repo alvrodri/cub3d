@@ -47,8 +47,6 @@ void	init(t_data *data)
 	data->player = malloc(sizeof(t_player));
 	data->player->keys = malloc(sizeof(t_keys));
 	data->player->mouse = malloc(sizeof(t_mouse));
-	data->player->mouse->last_x = -1;
-	data->player->mouse->last_y = -1;
 	data->player->keys->w = 0;
 	data->player->keys->a = 0;
 	data->player->keys->s = 0;
@@ -61,7 +59,7 @@ void	init(t_data *data)
 	data->player->pos_y = 9;
 	data->player->plane_x = 0;
 	data->player->plane_y = 0.7;
-	data->player->movement_speed = 0.015;
+	data->player->movement_speed = 0.5;
 	data->player->rotation_speed = 0.1;
 	data->player->pitch = 0;
 }
@@ -134,18 +132,23 @@ int   ft_loop(t_data *data)
 		}
 		x++;
 	}
+	ft_draw_crosshair(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->mlx_img, 0, 0);
+	ft_draw_crosshair(data);
 	return (1);
 }
 
 int		main(int args_n, char **args)
 {
 	t_data	data;
+	int tab[2];
 	
 	if (args_n != 2)
 		return (ft_close(&data, 1));
 	init(&data);
 	ft_parse_map(&data, args[1]);
+	data.player->mouse->last_x = data.width / 2;
+	data.player->mouse->last_y = data.height / 2;
 	data.mlx_ptr = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx_ptr, data.width, data.height, "cub3d");
 	data.mlx_img = mlx_new_image(data.mlx_ptr, data.width, data.height);
