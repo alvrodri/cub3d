@@ -59,7 +59,8 @@ void	init(t_data *data)
 	data->player->pos_y = 9;
 	data->player->plane_x = 0;
 	data->player->plane_y = 0.7;
-	data->player->movement_speed = 0.5;
+	data->player->movement_speed = 0.1;
+	data->player->current_speed = 0;
 	data->player->rotation_speed = 0.1;
 	data->player->pitch = 0;
 }
@@ -72,8 +73,8 @@ int   ft_loop(t_data *data)
 	int	endian;
 	int x;
 	
-	if (data->player->keys->w)
-		ft_move_forward(data, map);
+	ft_accelerate(data);
+	ft_move_forward(data, map);
 	if (data->player->keys->s)
 		ft_move_backwards(data, map);
 	if (data->player->keys->d)

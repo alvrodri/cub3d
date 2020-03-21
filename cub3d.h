@@ -13,6 +13,7 @@
 #ifndef CUB3D_H
 
 # define CUB3D_H
+# define MAX_SPEED 0.1
 # include "./minilibx/mlx.h"
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
@@ -47,6 +48,7 @@ typedef	struct	s_player {
 	double		plane_x;
 	double		plane_y;
 	double		movement_speed;
+	double		current_speed;
 	double		rotation_speed;
 	double		pitch;
 	t_keys		*keys;
@@ -108,4 +110,5 @@ void			ft_send_instructions(t_data *data);
 void			ft_draw_pixel(t_data *data, int x, int y, unsigned int color);
 void			ft_draw_crosshair(t_data *data);
 void			ft_mouse(t_data *data);
+void			ft_accelerate(t_data *data);
 #endif

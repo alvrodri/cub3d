@@ -34,7 +34,7 @@ void    ft_move_forward(t_data *data, int map[24][24])
 {
 	double	movement_speed;
 
-	movement_speed = data->player->movement_speed;
+	movement_speed = data->player->current_speed;
 	(data->player->keys->shift ? movement_speed *= 1.85 : 0);
 	if (map[(int)(data->player->pos_x + data->player->dir_x * movement_speed)]
 	[(int)data->player->pos_y] == 0)			
