@@ -74,9 +74,7 @@ int   ft_loop(t_data *data)
 	int x;
 	
 	ft_accelerate(data);
-	ft_move_forward(data, map);
-	if (data->player->keys->s)
-		ft_move_backwards(data, map);
+	ft_move(data, map);
 	if (data->player->keys->d)
 		ft_rotate_right(data);
 	if (data->player->keys->a)

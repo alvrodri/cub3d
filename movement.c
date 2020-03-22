@@ -30,7 +30,7 @@ void	ft_mouse(t_data *data)
 		mlx_mouse_move(data->mlx_win, mouse->last_x, mouse->last_y);
 }
 
-void    ft_move_forward(t_data *data, int map[24][24])
+void    ft_move(t_data *data, int map[24][24])
 {
 	double	movement_speed;
 
@@ -42,19 +42,6 @@ void    ft_move_forward(t_data *data, int map[24][24])
 	if (map[(int)data->player->pos_x]
 	[(int)(data->player->pos_y + data->player->dir_y * movement_speed)] == 0)
 		data->player->pos_y += data->player->dir_y * movement_speed;
-}
-
-void	ft_move_backwards(t_data *data, int map[24][24])
-{
-	double	movement_speed;
-
-	movement_speed = data->player->movement_speed;
-	if (map[(int)(data->player->pos_x - data->player->dir_x * movement_speed)]
-	[(int)data->player->pos_y] == 0)
-		data->player->pos_x -= data->player->dir_x * movement_speed;
-	if (map[(int)data->player->pos_x]
-	[(int)(data->player->pos_y - data->player->dir_y * movement_speed)] == 0)
-		data->player->pos_y -= data->player->dir_y * movement_speed;
 }
 
 void	ft_rotate_right(t_data *data)

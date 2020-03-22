@@ -14,6 +14,7 @@
 
 # define CUB3D_H
 # define MAX_SPEED 0.1
+# define MIN_SPEED -0.085
 # include "./minilibx/mlx.h"
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
@@ -102,8 +103,7 @@ void			ft_parse_map(t_data *data, char *map);
 void    		ft_start_raycasting(int x, t_data *data, t_ray *ray);
 void			ft_throw_ray(t_data *data, t_ray *ray);
 void			ft_check_hits(t_data *data, t_ray *ray, int map[24][24]);
-void			ft_move_forward(t_data *data, int map[24][24]);
-void			ft_move_backwards(t_data *data, int map[24][24]);
+void			ft_move(t_data *data, int map[24][24]);
 void			ft_rotate_right(t_data *data);
 void			ft_rotate_left(t_data *data);
 void			ft_send_instructions(t_data *data);
