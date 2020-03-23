@@ -1,4 +1,4 @@
-R 640 480
+R 1366 768
 NO ./textures/N.xpm
 SO ./textures/S.xpm
 WE ./textures/W.xpm

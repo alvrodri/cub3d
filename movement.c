@@ -24,8 +24,16 @@ void	ft_mouse(t_data *data)
 	y_diff = mouse->y - mouse->last_y;
 	if (x_diff)
 		x_diff > 0 ? ft_rotate_right(data) : ft_rotate_left(data);
-	if (y_diff)
-		data->player->pitch += y_diff < 0 ? 10 : -10;  
+	if (y_diff < 0)
+	{
+		if (data->player->pitch + 10 <= 500)
+			data->player->pitch += 10;
+	}
+	else if (y_diff > 0)
+	{
+		if (data->player->pitch - 10 >= -300)
+			data->player->pitch -= 10;
+	}
 	if (x_diff || y_diff)
 		mlx_mouse_move(data->mlx_win, mouse->last_x, mouse->last_y);
 }
@@ -47,37 +55,37 @@ void    ft_move(t_data *data, int map[24][24])
 void	ft_rotate_right(t_data *data)
 {
 	double old_dir_x;
-    double old_plane_x = data->player->plane_x;
+		double old_plane_x = data->player->plane_x;
 	double rotation = data->player->rotation_speed;
 
 	old_dir_x = data->player->dir_x;
 	old_plane_x = data->player->plane_x;
 	rotation = data->player->rotation_speed;
-    data->player->dir_x = data->player->dir_x * cos(rotation) -
+		data->player->dir_x = data->player->dir_x * cos(rotation) -
 		data->player->dir_y * sin(-rotation);
-    data->player->dir_y = old_dir_x * sin(-rotation) +
+		data->player->dir_y = old_dir_x * sin(-rotation) +
 		data->player->dir_y * cos(-rotation);
-    data->player->plane_x = data->player->plane_x * cos(-rotation)
+		data->player->plane_x = data->player->plane_x * cos(-rotation)
 		- data->player->plane_y * sin(-rotation);
-    data->player->plane_y = old_plane_x * sin(-rotation) +
+		data->player->plane_y = old_plane_x * sin(-rotation) +
 		data->player->plane_y * cos(-rotation);
 }
 
 void	ft_rotate_left(t_data *data)
 {
 	double old_dir_x = data->player->dir_x;
-    double old_plane_x = data->player->plane_x;
+		double old_plane_x = data->player->plane_x;
 	double rotation = data->player->rotation_speed;
 
 	old_dir_x = data->player->dir_x;
 	old_plane_x = data->player->plane_x;
 	rotation = data->player->rotation_speed;
-    data->player->dir_x = data->player->dir_x * cos(rotation) -
+		data->player->dir_x = data->player->dir_x * cos(rotation) -
 		data->player->dir_y * sin(rotation);
-    data->player->dir_y = old_dir_x * sin(rotation) +
+		data->player->dir_y = old_dir_x * sin(rotation) +
 		data->player->dir_y * cos(rotation);
-    data->player->plane_x = data->player->plane_x * cos(rotation)
+		data->player->plane_x = data->player->plane_x * cos(rotation)
 		- data->player->plane_y * sin(rotation);
-    data->player->plane_y = old_plane_x * sin(rotation) +
+		data->player->plane_y = old_plane_x * sin(rotation) +
 		data->player->plane_y * cos(rotation);
 }

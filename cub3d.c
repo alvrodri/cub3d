@@ -81,23 +81,6 @@ int   ft_loop(t_data *data)
 		ft_rotate_left(data);
 	ft_mouse(data);
 	x = 0;
-	if (data->player->keys->up && data->player->pitch <= 180)
-		data->player->pitch += 5;
-	if (data->player->keys->down && data->player->pitch >= -180)
-		data->player->pitch -= 5;
-	if (data->player->keys->shift)
-	{
-		if (shifted)
-		{
-			data->player->pitch -= 2.5;
-			shifted = 0;
-		}
-		else
-		{
-			data->player->pitch += 2.5;
-			shifted = 1;
-		}
-	}
 	while (x < data->width)
 	{
 		t_ray ray;
