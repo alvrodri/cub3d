@@ -58,11 +58,12 @@ void	init(t_data *data)
 	data->player->pos_x = 16;
 	data->player->pos_y = 9;
 	data->player->plane_x = 0;
-	data->player->plane_y = 0.7;
+	data->player->plane_y = 1;
 	data->player->movement_speed = 0.1;
 	data->player->current_speed = 0;
 	data->player->rotation_speed = 0.1;
 	data->player->pitch = 0;
+	data->map->map = map;
 }
 
 int   ft_loop(t_data *data)
@@ -103,7 +104,7 @@ int   ft_loop(t_data *data)
 		int i = draw_start;
 		while (i < draw_end)
 		{
-			ft_draw_pixel(data, x, i, ft_get_color(ray.map_x, ray.map_y, map));
+			ft_draw_pixel(data, x, i, ft_get_color(data, ray.map_x, ray.map_y, map));
 			i++;
 		}
 		j = draw_end;
@@ -115,6 +116,7 @@ int   ft_loop(t_data *data)
 		x++;
 	}
 	ft_draw_crosshair(data);
+	ft_draw_minimap(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->mlx_img, 0, 0);
 	ft_draw_crosshair(data);
 	return (1);

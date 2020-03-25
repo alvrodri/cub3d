@@ -21,7 +21,7 @@ int				ft_close(t_data *data, int error)
 	return (1);
 }
 
-unsigned	int	ft_get_color(int x, int y, int map[24][24])
+unsigned	int	ft_get_color(t_data *data, int x, int y, int map[24][24])
 {
 	if (map[x][y] == 1)
 		return (0x999999);
@@ -30,7 +30,7 @@ unsigned	int	ft_get_color(int x, int y, int map[24][24])
 	else if (map[x][y] == 3)
 		return (0x0000FF);
 	else
-		return (0xFFFFFF);
+		return (data->textures->floor);
 }
 
 unsigned	int	ft_rgb_to_hex(int r, int g, int b)

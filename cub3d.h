@@ -94,7 +94,7 @@ typedef struct  s_data {
 	t_player	*player;
 }				t_data;
 
-unsigned	int	ft_get_color(int x, int y, int map[24][24]);
+unsigned	int	ft_get_color(t_data *data, int x, int y, int map[24][24]);
 unsigned	int	ft_rgb_to_hex(int r, int g, int b);
 int				ft_close(t_data *data, int error);
 int				ft_handle_key_press(int keycode, t_data *data);
@@ -111,4 +111,5 @@ void			ft_draw_pixel(t_data *data, int x, int y, unsigned int color);
 void			ft_draw_crosshair(t_data *data);
 void			ft_mouse(t_data *data);
 void			ft_accelerate(t_data *data);
+void			ft_draw_minimap(t_data *data);
 #endif

@@ -22,7 +22,7 @@
 //macos: 2
 #define ESC 53
 //macos: 53
-#define SHIFT 65505
+#define SHIFT 257
 #define UP 65362
 #define DOWN 65364
 #define LEFT 65361
