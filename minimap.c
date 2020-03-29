@@ -48,18 +48,23 @@ static int		ft_is_player(t_data *data, int x, int y)
 	return ((int)data->player->pos_x) == x && ((int)data->player->pos_y) == y;
 }
 
+void    ft_draw_player(t_data *data)
+{
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->textures->player->image, data->player->pos_x * 7 - 4.5, data->player->pos_y * 7 - 4.5);	
+}
+
 void	ft_draw_minimap(t_data *data)
 {
     int x;
     int y;
 
     x = 0;
-    while (x < 24)
+    while (x < data->map->size)
     {
         y = 0;
-        while (y < 24)
+        while (y < data->map->size)
         {
-            ft_draw_square(data, x * 6 + 4, y * 6 + 4, 6, ft_is_player(data, x, y) ? 0xFF0000 : ft_get_color(data, x, y, data->map->map));
+			ft_draw_square(data, x * 7 + 4, y * 7 + 4, 7, ft_get_color(data, x, y, data->map->map));
             y++;
         }
         x++;

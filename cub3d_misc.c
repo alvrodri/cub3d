@@ -30,12 +30,21 @@ unsigned	int	ft_get_color(t_data *data, int x, int y, int map[24][24])
 	else if (map[x][y] == 3)
 		return (0x0000FF);
 	else
-		return (data->textures->floor);
+		return (ft_t_rgb_to_hex(data->textures->floor));
 }
 
 unsigned	int	ft_rgb_to_hex(int r, int g, int b)
 {
+	if (r < 0 || g < 0 || b < 0)
+		return (0 << 16 | 0 << 8 | 0);
 	return (r << 16 | g << 8 | b);
+}
+
+unsigned	int	ft_t_rgb_to_hex(t_rgb *rgb)
+{
+	if (rgb->r < 0 || rgb->g < 0 || rgb->b < 0)
+		return (0 << 16 | 0 << 8 | 0);
+	return (rgb->r << 16 | rgb->g << 8 | rgb->b);
 }
 
 void	ft_draw_pixel(t_data *data, int x, int y, unsigned int color)

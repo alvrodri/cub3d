@@ -58,7 +58,7 @@ void	init(t_data *data)
 	data->player->pos_x = 16;
 	data->player->pos_y = 9;
 	data->player->plane_x = 0;
-	data->player->plane_y = 1;
+	data->player->plane_y = .7;
 	data->player->movement_speed = 0.1;
 	data->player->current_speed = 0;
 	data->player->rotation_speed = 0.1;
@@ -66,12 +66,21 @@ void	init(t_data *data)
 	data->map->map = map;
 }
 
+void	init_textures(t_data *data)
+{
+	t_textures	*textures;
+	
+	textures = data->textures;
+	textures->stone = malloc(sizeof(t_texture));
+	textures->stone->image = mlx_png_file_to_image(data->mlx_ptr, "./textures/stone.png", &textures->stone->width, &textures->stone->height);
+	textures->brick = malloc(sizeof(t_texture));
+	textures->brick->image = mlx_png_file_to_image(data->mlx_ptr, "./textures/brick.png", &textures->brick->width, &textures->brick->height);
+	textures->player = malloc(sizeof(t_texture));
+	textures->player->image = mlx_png_file_to_image(data->mlx_ptr, "./textures/player.png", &textures->brick->width, &textures->player->height);
+}
+
 int   ft_loop(t_data *data)
 {
-	static	int	shifted;
-	int bits_per_pixel;
-	int	size_line;
-	int	endian;
 	int x;
 	
 	ft_accelerate(data);
@@ -98,7 +107,7 @@ int   ft_loop(t_data *data)
 		int j = 0;
 		while (j < draw_start)
 		{
-			ft_draw_pixel(data, x, j, data->textures->ceiling);
+			ft_draw_pixel(data, x, j, ft_t_rgb_to_hex(data->textures->ceiling));
 			j++;
 		}
 		int i = draw_start;
@@ -107,25 +116,24 @@ int   ft_loop(t_data *data)
 			ft_draw_pixel(data, x, i, ft_get_color(data, ray.map_x, ray.map_y, map));
 			i++;
 		}
-		j = draw_end;
-		while (j < data->height)
+		j = data->height;
+		while (j > draw_end)
 		{
-			ft_draw_pixel(data, x, j, data->textures->floor);
-			j++;
+			ft_draw_pixel(data, x, j, ft_t_rgb_to_hex(data->textures->floor));
+			j--;
 		}
 		x++;
 	}
 	ft_draw_crosshair(data);
 	ft_draw_minimap(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->mlx_img, 0, 0);
-	ft_draw_crosshair(data);
+	ft_draw_player(data);
 	return (1);
 }
 
 int		main(int args_n, char **args)
 {
 	t_data	data;
-	int tab[2];
 	
 	if (args_n != 2)
 		return (ft_close(&data, 1));
@@ -136,6 +144,7 @@ int		main(int args_n, char **args)
 	data.mlx_ptr = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx_ptr, data.width, data.height, "cub3d");
 	data.mlx_img = mlx_new_image(data.mlx_ptr, data.width, data.height);
+	init_textures(&data);
 	mlx_mouse_hide();
 	mlx_hook(data.mlx_win, 02, 1L << 0, ft_handle_key_press, &data);
 	mlx_hook(data.mlx_win, 03, 1L << 1, ft_handle_key_release, &data);

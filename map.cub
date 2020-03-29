@@ -1,10 +1,10 @@
-R 1366 768
+R 1024 768
 NO ./textures/N.xpm
 SO ./textures/S.xpm
 WE ./textures/W.xpm
 EA ./textures/E.xpm
 S ./sprite/treasure.xpm
-F 0,128,0
+F 0,128,55
 C 135,205,235
 
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1

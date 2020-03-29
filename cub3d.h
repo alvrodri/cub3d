@@ -18,6 +18,7 @@
 # include "./minilibx/mlx.h"
 # include "./libft/libft.h"
 # include "./get_next_line/get_next_line.h"
+# include "time.h"
 # include "fcntl.h"
 # include "unistd.h"
 # include "stdio.h"
@@ -75,12 +76,27 @@ typedef struct	s_ray {
 typedef struct	s_map {
 	char		**map;
 	int			size;
+	void		*image;
 }				t_map;
 
+typedef	struct s_texture {
+	int			width;
+	int			height;
+	void		*image;
+}				t_texture;
+
+typedef struct	s_rgb {
+	int			r;
+	int			g;
+	int			b;
+}				t_rgb;
+
 typedef struct	s_textures {
-	int			floor;
-	int			ceiling;
-	void		*gun;
+	t_rgb		*floor;
+	t_rgb		*ceiling;
+	t_texture	*stone;
+	t_texture	*brick;
+	t_texture	*player;
 }				t_textures;
 
 typedef struct  s_data {
@@ -96,6 +112,7 @@ typedef struct  s_data {
 
 unsigned	int	ft_get_color(t_data *data, int x, int y, int map[24][24]);
 unsigned	int	ft_rgb_to_hex(int r, int g, int b);
+unsigned	int	ft_t_rgb_to_hex(t_rgb *rgb);
 int				ft_close(t_data *data, int error);
 int				ft_handle_key_press(int keycode, t_data *data);
 int				ft_handle_key_release(int keycode, t_data *data);
@@ -112,4 +129,5 @@ void			ft_draw_crosshair(t_data *data);
 void			ft_mouse(t_data *data);
 void			ft_accelerate(t_data *data);
 void			ft_draw_minimap(t_data *data);
+void			ft_draw_player(t_data *data);
 #endif
