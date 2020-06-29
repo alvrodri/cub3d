@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/16 18:08:06 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/06/29 12:11:47 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 
 # define CUB3D_H
-# define MAX_SPEED 0.1
+# define MAX_SPEED 0.005
 # define MIN_SPEED -0.085
 # include "./minilibx/mlx.h"
 # include "./libft/libft.h"
@@ -76,6 +76,8 @@ typedef struct	s_ray {
 typedef struct	s_map {
 	char		**map;
 	int			size;
+	int			x;
+	int			y;
 	void		*image;
 }				t_map;
 

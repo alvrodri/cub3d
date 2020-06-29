@@ -3,23 +3,116 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 19:29:04 by alvaro            #+#    #+#             */
-/*   Updated: 2020/03/12 22:43:01 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/06/29 13:37:41 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_parse_map(t_data *data, char *map)
+static int ft_strlen_char(char *str, char c)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+			j++;
+		i++;
+	}
+	return j;
+}
+
+static char *ft_strtrim_char(char *str, char c)
+{
+	char *new;
+	int len;
+	int i;
+	int j;
+
+	new = malloc(ft_strlen_char(str, c));
+	len = ft_strlen_char(str, c);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+		{
+			new[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	return new;
+}
+
+static void	ft_second_read(t_data *data, int fd)
+{
+	char **map;
+	char *line;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	map = malloc(data->map->y * sizeof(char *));
+	printf("%s\n", ft_strtrim_char("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1", ' '));
+	/*
+	while (get_next_line(fd, &line))
+	{
+		if (ft_strchr("012", line[0]))
+		{
+			i = 0;
+			while (i < ft_strlen(line))
+			{
+				if (ft_strchr("012EWSN", line[i]))
+					map[] = line[i];
+				i++;
+
+			}
+			free(line);
+		}
+	}
+	free(line);
+
+	int y = 0;
+	while (y < data->map->y)
+	{
+		printf("%s\n", map[y]);
+	}
+	*/
+}
+
+static void	ft_first_read(t_data *data, int fd, char **line, char *map_name)
+{
+	data->map->x = 0;
+	data->map->y = 0;
+	while (get_next_line(fd, line) > 0)
+	{
+		if (ft_strlen_char(*line, ' ') > data->map->x)
+			data->map->x = ft_strlen_char(*line, ' ');
+		data->map->y++;
+	}
+	if (ft_strlen_char(*line, ' ') > data->map->x)
+			data->map->x = ft_strlen_char(*line, ' ');
+	data->map->y++;
+	ft_second_read(data, open(map_name, O_RDONLY));
+}
+
+void	ft_parse_map(t_data *data, char *map_name)
 {
 	int		fd;
 	int		read;
 	char	*line;
 	char	**split;
+	char	**map;
 
-	fd = open(map, O_RDONLY);
+	fd = open(map_name, O_RDONLY);
 	if (fd == -1)
 		ft_close(data, 1);
 	data->map->size = 24;
@@ -48,5 +141,12 @@ void	ft_parse_map(t_data *data, char *map)
 			data->textures->ceiling->b = ft_atoi(split[2]);
 			free(split);
 		}
+		else if (ft_strchr("012", line[0]))
+		{
+			free(line);
+			ft_first_read(data, fd, &line, map_name);
+			return;
+		}
+		free(line);
 	}
 }

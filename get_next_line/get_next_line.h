@@ -6,13 +6,13 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:10:12 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/07 18:45:56 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/06/29 13:00:29 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 32
+# define BUFFER_SIZE 1
 
 # include <stdlib.h>
 # include <stdio.h>

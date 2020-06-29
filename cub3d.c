@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:24:33 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/16 18:15:04 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/06/29 12:10:17 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	init(t_data *data)
 	data->player->plane_y = .7;
 	data->player->movement_speed = 0.1;
 	data->player->current_speed = 0;
-	data->player->rotation_speed = 0.1;
+	data->player->rotation_speed = 0.075;
 	data->player->pitch = 0;
 	data->map->map = map;
 }
@@ -127,7 +127,6 @@ int   ft_loop(t_data *data)
 	ft_draw_crosshair(data);
 	ft_draw_minimap(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->mlx_img, 0, 0);
-	ft_draw_player(data);
 	return (1);
 }
 
