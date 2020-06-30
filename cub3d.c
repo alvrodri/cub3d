@@ -6,39 +6,11 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:24:33 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/06/29 12:10:17 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/06/30 10:23:25 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int map[24][24] =
-{
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
 
 void	init(t_data *data)
 {
@@ -55,15 +27,14 @@ void	init(t_data *data)
 	data->player->keys->down = 0;
 	data->player->dir_x = -1;
 	data->player->dir_y = 0;
-	data->player->pos_x = 16;
-	data->player->pos_y = 9;
+	data->player->pos_x = 1;
+	data->player->pos_y = 1;
 	data->player->plane_x = 0;
 	data->player->plane_y = .7;
 	data->player->movement_speed = 0.1;
 	data->player->current_speed = 0;
 	data->player->rotation_speed = 0.075;
 	data->player->pitch = 0;
-	data->map->map = map;
 }
 
 void	init_textures(t_data *data)
@@ -84,25 +55,28 @@ int   ft_loop(t_data *data)
 	int x;
 	
 	ft_accelerate(data);
-	ft_move(data, map);
+	ft_move(data);
 	if (data->player->keys->d)
 		ft_rotate_right(data);
 	if (data->player->keys->a)
 		ft_rotate_left(data);
 	ft_mouse(data);
 	x = 0;
+	int o = 0;
 	while (x < data->width)
 	{
 		t_ray ray;
 
 		ft_start_raycasting(x, data, &ray);
 		ft_throw_ray(data, &ray);
-		ft_check_hits(data, &ray, map);
+		ft_check_hits(data, &ray);
 		int draw_start = -(data->height / ray.wall_distance) / 2 + data->player->pitch + data->height / 2;
 		if (draw_start < 0)
 			draw_start = 0;
 		int draw_end = (data->height / ray.wall_distance) / 2 +  data->player->pitch + data->height / 2;
 		if (draw_end >= data->height)
+			draw_end = data->height - 1;
+		if (draw_end < 0)
 			draw_end = data->height - 1;
 		int j = 0;
 		while (j < draw_start)
@@ -113,18 +87,18 @@ int   ft_loop(t_data *data)
 		int i = draw_start;
 		while (i < draw_end)
 		{
-			ft_draw_pixel(data, x, i, ft_get_color(data, ray.map_x, ray.map_y, map));
+			ft_draw_pixel(data, x, i, 0x0000ff);
 			i++;
 		}
-		j = data->height;
-		while (j > draw_end)
+		j = draw_end;
+		while (j < data->height)
 		{
 			ft_draw_pixel(data, x, j, ft_t_rgb_to_hex(data->textures->floor));
-			j--;
+			j++;
 		}
 		x++;
 	}
-	ft_draw_crosshair(data);
+	//ft_draw_crosshair(data);
 	ft_draw_minimap(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->mlx_img, 0, 0);
 	return (1);

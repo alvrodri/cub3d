@@ -6,14 +6,14 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/06/29 12:11:47 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/06/30 10:18:11 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 
 # define CUB3D_H
-# define MAX_SPEED 0.005
+# define MAX_SPEED 0.05
 # define MIN_SPEED -0.085
 # include "./minilibx/mlx.h"
 # include "./libft/libft.h"
@@ -112,7 +112,7 @@ typedef struct  s_data {
 	t_player	*player;
 }				t_data;
 
-unsigned	int	ft_get_color(t_data *data, int x, int y, int map[24][24]);
+unsigned	int	ft_get_color(t_data *data, int x, int y);
 unsigned	int	ft_rgb_to_hex(int r, int g, int b);
 unsigned	int	ft_t_rgb_to_hex(t_rgb *rgb);
 int				ft_close(t_data *data, int error);
@@ -121,8 +121,8 @@ int				ft_handle_key_release(int keycode, t_data *data);
 void			ft_parse_map(t_data *data, char *map);
 void    		ft_start_raycasting(int x, t_data *data, t_ray *ray);
 void			ft_throw_ray(t_data *data, t_ray *ray);
-void			ft_check_hits(t_data *data, t_ray *ray, int map[24][24]);
-void			ft_move(t_data *data, int map[24][24]);
+void			ft_check_hits(t_data *data, t_ray *ray);
+void			ft_move(t_data *data);
 void			ft_rotate_right(t_data *data);
 void			ft_rotate_left(t_data *data);
 void			ft_send_instructions(t_data *data);

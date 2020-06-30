@@ -48,7 +48,7 @@ void	ft_throw_ray(t_data *data, t_ray *ray)
 	}
 }
 
-void	ft_check_hits(t_data *data, t_ray *ray, int map[24][24])
+void	ft_check_hits(t_data *data, t_ray *ray)
 {
 	int		side;
 
@@ -66,7 +66,7 @@ void	ft_check_hits(t_data *data, t_ray *ray, int map[24][24])
 			ray->map_y += ray->step_y;
 			side = 1;
 		}
-		if (map[ray->map_x][ray->map_y] > 0)
+		if (data->map->map[ray->map_x][ray->map_y] != '0')
 			ray->hit = 1;
 	}
 	if (side == 0)

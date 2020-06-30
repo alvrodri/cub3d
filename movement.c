@@ -6,24 +6,24 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/06/29 11:05:35 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/06/30 10:13:48 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_move(t_data *data, int map[24][24])
+void	ft_move(t_data *data)
 {
 	double movement_speed;
 
 	movement_speed = data->player->current_speed;
 	(data->player->keys->shift ? movement_speed *= 1.85 : 0);
-	if (map[(int)(data->player->pos_x + data->player->dir_x * movement_speed)]
-			[(int)data->player->pos_y] == 0)
+	if (data->map->map[(int)(data->player->pos_x + data->player->dir_x * movement_speed)]
+			[(int)data->player->pos_y] == '0')
 		data->player->pos_x += data->player->dir_x * movement_speed;
-	if (map[(int)data->player->pos_x]
+	if (data->map->map[(int)data->player->pos_x]
 			[(int)(data->player->pos_y +
-			data->player->dir_y * movement_speed)] == 0)
+			data->player->dir_y * movement_speed)] == '0')
 		data->player->pos_y += data->player->dir_y * movement_speed;
 }
 

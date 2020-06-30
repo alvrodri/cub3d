@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_misc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/14 19:19:22 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/06/30 10:10:57 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int				ft_close(t_data *data, int error)
 	return (1);
 }
 
-unsigned	int	ft_get_color(t_data *data, int x, int y, int map[24][24])
+unsigned	int	ft_get_color(t_data *data, int x, int y)
 {
-	if (map[x][y] == 1)
+	if (data->map->map[x][y] == '1')
 		return (0x999999);
-	else if (map[x][y] == 2)
+	else if (data->map->map[x][y] == '2')
 		return (0x624A2E);
-	else if (map[x][y] == 3)
+	else if (data->map->map[x][y] == '3')
 		return (0x0000FF);
 	else
 		return (ft_t_rgb_to_hex(data->textures->floor));

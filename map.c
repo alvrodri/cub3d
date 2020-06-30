@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 19:29:04 by alvaro            #+#    #+#             */
-/*   Updated: 2020/06/29 13:37:41 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/06/30 09:45:50 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char *ft_strtrim_char(char *str, char c)
 	int i;
 	int j;
 
-	new = malloc(ft_strlen_char(str, c));
+	new = malloc(ft_strlen_char(str, c) + 1);
 	len = ft_strlen_char(str, c);
 	i = 0;
 	j = 0;
@@ -48,6 +48,7 @@ static char *ft_strtrim_char(char *str, char c)
 		}
 		i++;
 	}
+	new[j] = '\0';
 	return new;
 }
 
@@ -61,31 +62,17 @@ static void	ft_second_read(t_data *data, int fd)
 	i = 0;
 	j = 0;
 	map = malloc(data->map->y * sizeof(char *));
-	printf("%s\n", ft_strtrim_char("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1", ' '));
-	/*
 	while (get_next_line(fd, &line))
 	{
 		if (ft_strchr("012", line[0]))
 		{
-			i = 0;
-			while (i < ft_strlen(line))
-			{
-				if (ft_strchr("012EWSN", line[i]))
-					map[] = line[i];
-				i++;
-
-			}
+			map[i] = ft_strtrim_char(line, ' ');
 			free(line);
+			i++;
 		}
 	}
-	free(line);
 
-	int y = 0;
-	while (y < data->map->y)
-	{
-		printf("%s\n", map[y]);
-	}
-	*/
+	data->map->map = map;
 }
 
 static void	ft_first_read(t_data *data, int fd, char **line, char *map_name)
