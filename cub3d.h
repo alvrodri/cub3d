@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/06/30 10:18:11 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/06/30 12:23:55 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct	s_mouse {
 	int			y;
 	int			last_x;
 	int			last_y;
+	int			clicked;
 }				t_mouse;
 
 typedef	struct	s_player {
@@ -99,6 +100,7 @@ typedef struct	s_textures {
 	t_texture	*stone;
 	t_texture	*brick;
 	t_texture	*player;
+	t_texture	*fire;
 }				t_textures;
 
 typedef struct  s_data {
@@ -118,6 +120,8 @@ unsigned	int	ft_t_rgb_to_hex(t_rgb *rgb);
 int				ft_close(t_data *data, int error);
 int				ft_handle_key_press(int keycode, t_data *data);
 int				ft_handle_key_release(int keycode, t_data *data);
+int				ft_handle_button_press(int keycode, t_data *data);
+int				ft_handle_button_release(int keycode, t_data *data);
 void			ft_parse_map(t_data *data, char *map);
 void    		ft_start_raycasting(int x, t_data *data, t_ray *ray);
 void			ft_throw_ray(t_data *data, t_ray *ray);

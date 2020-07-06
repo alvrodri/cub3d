@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:16:34 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/03/12 19:51:13 by alvaro           ###   ########.fr       */
+/*   Updated: 2020/06/30 12:31:03 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int		ft_handle_key_press(int keycode, t_data *data)
 		data->player->keys->up = 1;
 	else if (keycode == DOWN)
 		data->player->keys->down = 1;
+	else if (keycode == 3)
+		data->player->mouse->clicked = 1;
 	return (1);
 }
 
@@ -65,5 +67,7 @@ int		ft_handle_key_release(int keycode, t_data *data)
 		data->player->keys->up = 0;
 	else if (keycode == DOWN)
 		data->player->keys->down = 0;
+	else if (keycode == 3)
+		data->player->mouse->clicked = 0;
 	return (1);
 }

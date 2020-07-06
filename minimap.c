@@ -59,7 +59,7 @@ void	ft_draw_minimap(t_data *data)
 		y = 0;
 		while (y < data->map->x)
 		{
-			ft_draw_square(data, y * 7 + 4, x * 7 + 4, 7, ft_is_player(data, x, y) ? 0xFF0FF0 : ft_get_color(data, x, y));
+			ft_draw_square(data, y * 7 + 4, x * 7 + 4, 7, ft_is_player(data, x, y) ? 0xFF0000 : ft_get_color(data, x, y));
 			y++;
 		}
 		x++;

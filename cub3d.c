@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:24:33 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/06/30 10:23:25 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/06 11:45:19 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	init(t_data *data)
 	data->player = malloc(sizeof(t_player));
 	data->player->keys = malloc(sizeof(t_keys));
 	data->player->mouse = malloc(sizeof(t_mouse));
+	data->player->keys->shift = 0;
 	data->player->keys->w = 0;
 	data->player->keys->a = 0;
 	data->player->keys->s = 0;
 	data->player->keys->d = 0;
 	data->player->keys->up = 0;
 	data->player->keys->down = 0;
+	data->player->mouse->clicked = 0;
 	data->player->dir_x = -1;
 	data->player->dir_y = 0;
 	data->player->pos_x = 1;
@@ -47,19 +49,16 @@ void	init_textures(t_data *data)
 	textures->brick = malloc(sizeof(t_texture));
 	textures->brick->image = mlx_png_file_to_image(data->mlx_ptr, "./textures/brick.png", &textures->brick->width, &textures->brick->height);
 	textures->player = malloc(sizeof(t_texture));
-	textures->player->image = mlx_png_file_to_image(data->mlx_ptr, "./textures/player.png", &textures->brick->width, &textures->player->height);
+	textures->player->image = mlx_png_file_to_image(data->mlx_ptr, "./textures/gun.png", &textures->brick->width, &textures->player->height);
+	textures->fire = malloc(sizeof(t_texture));
+	textures->fire->image = mlx_png_file_to_image(data->mlx_ptr, "./textures/fire.png", &textures->fire->width, &textures->fire->height);
 }
 
 int   ft_loop(t_data *data)
 {
 	int x;
 	
-	ft_accelerate(data);
 	ft_move(data);
-	if (data->player->keys->d)
-		ft_rotate_right(data);
-	if (data->player->keys->a)
-		ft_rotate_left(data);
 	ft_mouse(data);
 	x = 0;
 	int o = 0;
@@ -100,7 +99,15 @@ int   ft_loop(t_data *data)
 	}
 	//ft_draw_crosshair(data);
 	ft_draw_minimap(data);
+	ft_draw_crosshair(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->mlx_img, 0, 0);
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->textures->player->image, data->width / 1.6, data->height / 1.3);
+	if (data->player->mouse->clicked)
+	{
+		mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->textures->fire->image, data->width / 2, data->height / 2.5);	
+		mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->textures->fire->image, data->width / 3, data->height / 3.5);	
+		mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->textures->fire->image, data->width / 4, data->height / 4.5);	
+	}	
 	return (1);
 }
 
