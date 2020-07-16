@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/16 10:11:17 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/07 12:44:48 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # include "stdlib.h"
 # include "math.h"
 
-# define PLAYER_SPEED 0.2
-
 typedef	struct	s_keys {
 	int			w;
 	int			a;
@@ -34,7 +32,6 @@ typedef	struct	s_keys {
 	int			left;
 	int			right;
 	int			down;
-	int			shift;
 }				t_keys;
 
 typedef struct	s_mouse {
@@ -45,52 +42,33 @@ typedef struct	s_mouse {
 	int			clicked;
 }				t_mouse;
 
-typedef struct	s_img {
-	void *img;
-	char *addr;
-	int bits_per_pixel;
-	int line_length;
-	int endian;
-} t_img;
-
-typedef	struct	s_point {
-	float		x;
-	float		y;
-}				t_point;
-
-typedef struct s_line {
-	int dx;
-	int dy;
-	int steps;
-	float x_inc;
-	float y_inc;
-} 				t_line;
-
-typedef struct	s_wall {
-	int			start;
-	int			end;
-	float		height;
-}				t_wall;
-
 typedef	struct	s_player {
-	float		x;
-	float		y;
-	float		dir;
-	float		fov;
+	float		pos_x;
+	float		pos_y;
+	float		movement_speed;
+	float		rotation_speed;
 	float		pitch;
+	float		fov;
+	float		angle;
 	t_keys		*keys;
 	t_mouse		*mouse;
 }				t_player;
 
 typedef struct	s_ray {
-	float		x;
-	float		y;
-	float		sin;
-	float		cos;
-	float		distance;
-	float		dir;
+	double		camera_x;
+	double		dir_x;
+	double		dir_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		side_dist_x;
+	double		side_dist_y;
+	double		wall_distance;
+	int			step_x;
+	int			step_y;
+	int			map_x;
+	int			map_y;
 	int			hit;
-	int			cardinal;
+	int			side;
 }				t_ray;
 
 typedef struct	s_map {
@@ -100,6 +78,14 @@ typedef struct	s_map {
 	int			y;
 	void		*image;
 }				t_map;
+
+typedef struct	s_img {
+	void *img;
+	char *addr;
+	int bits_per_pixel;
+	int line_length;
+	int endian;
+} t_img;
 
 typedef	struct s_texture {
 	int			width;
@@ -136,7 +122,6 @@ typedef struct  s_data {
 unsigned	int	ft_get_color(t_data *data, int x, int y);
 unsigned	int	ft_rgb_to_hex(int r, int g, int b);
 unsigned	int	ft_t_rgb_to_hex(t_rgb *rgb);
-float			deg_to_rad(float deg);
 int				ft_close(t_data *data, int error);
 int				ft_handle_key_press(int keycode, t_data *data);
 int				ft_handle_key_release(int keycode, t_data *data);
@@ -147,8 +132,7 @@ void    		ft_start_raycasting(int x, t_data *data, t_ray *ray);
 void			ft_throw_ray(t_data *data, t_ray *ray);
 void			ft_check_hits(t_data *data, t_ray *ray);
 void			ft_move(t_data *data);
-void			ft_rotate_right(t_data *data);
-void			ft_rotate_left(t_data *data);
+void			ft_rotate(t_data *data);
 void			ft_send_instructions(t_data *data);
 void			ft_draw_pixel(t_data *data, int x, int y, unsigned int color);
 void			ft_draw_crosshair(t_data *data);
@@ -156,9 +140,6 @@ void			ft_mouse(t_data *data);
 void			ft_accelerate(t_data *data);
 void			ft_draw_minimap(t_data *data);
 void			ft_draw_player(t_data *data);
-void  		 	pixel_put(t_img *img, int x, int y, int color);
-void			ft_rotate(t_data *data, int degrees, int pitch);
-void			ft_move_sides(t_data *data);
-void    		ft_draw_line(t_img img, t_point start, t_point end, unsigned long color);
-t_point 		ft_create_point(float x, float y);
+void pixel_put(t_img *img, int x, int y, int color);
+double			deg_to_rad(double deg);
 #endif

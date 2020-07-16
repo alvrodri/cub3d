@@ -6,96 +6,84 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/06 12:17:48 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/14 10:44:17 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		ft_collides(t_data *data, int to_x, int to_y)
+void	ft_move(t_data *data)
 {
-	char	**map;
+	float player_cos = cos(deg_to_rad(data->player->dir)) * PLAYER_SPEED;
+	float player_sin = sin(deg_to_rad(data->player->dir)) * PLAYER_SPEED;
+	float next_x;
+	float next_y;
 
-	map = data->map->map;
-	if (map[to_x][to_y] != '0')
-		return (1);
-	return (0);
-}
+	if (data->player->keys->w == 1)
+	{
+		next_x = data->player->x + player_cos;
+		next_y = data->player->y + player_sin;
 
-float rad_to_deg(float rad)
-{
-	return (fabs(rad) * 180 / M_PI);
-}
+		if (data->map->map[(int)next_y][(int)next_x] == '0')
+		{
+			data->player->x += player_cos;
+			data->player->y += player_sin;
+		}
+	}
+	else if (data->player->keys->s == 1)
+	{
+		next_x = data->player->x - player_sin;
+		next_y = data->player->y - player_cos;
 
-float deg_to_rad(float rad)
-{
-	return (fabs(rad) * M_PI / 180);
+		if (data->map->map[(int)next_y][(int)next_x] == '0')
+		{
+			data->player->x -= player_cos;
+			data->player->y -= player_sin;
+		}
+	}
 }
 
 void	ft_move_sides(t_data *data)
 {
-	float speed;
+	/*int		moved;
+	float 	player_cos; 
+	float	player_sin;
 	
-	speed = data->player->movement_speed;
-	if (data->player->keys->d)
+	moved = 0;
+	if (data->player->keys->a == 1)
 	{
-		float x = (deg_to_rad(rad_to_deg(data->player->dir_x) + 90));
-		float y = (deg_to_rad(rad_to_deg(data->player->dir_y) + 90));
-
-		data->player->pos_x += x * speed;
-		data->player->pos_y += y * speed;
+		player_cos = cos(deg_to_rad(data->player->dir + 90)) * PLAYER_SPEED;
+		player_sin = sin(deg_to_rad(data->player->dir + 90)) * PLAYER_SPEED;
+		moved = 1;
 	}
-}
-
-void	ft_move(t_data *data)
-{
-	float movement_speed;
-
-	ft_move_sides(data);
-	if (data->player->keys->w == 1 || data->player->keys->s == 1)
+	else if (data->player->keys->d == 1)
 	{
-		movement_speed = data->player->keys->w == 1 ? data->player->movement_speed : -data->player->movement_speed;
-		if (!ft_collides(data, data->player->pos_x + data->player->dir_x * movement_speed, data->player->pos_y))
-			data->player->pos_x += data->player->dir_x * movement_speed;
-		if (!ft_collides(data, data->player->pos_x, data->player->pos_y +data->player->dir_y * movement_speed))
-			data->player->pos_y += data->player->dir_y * movement_speed;
+		player_cos = cos(deg_to_rad(data->player->dir - 90)) * PLAYER_SPEED;
+		player_sin = sin(deg_to_rad(data->player->dir - 90)) * PLAYER_SPEED;
+		moved = 1;
 	}
+	if (moved && !ft_collides(data, data->player->x - player_cos, data->player->y - player_cos))
+	{
+		data->player->x -= player_cos;
+		data->player->y -= player_sin;
+	}*/
 }
 
-void	ft_rotate_right(t_data *data)
+void	ft_rotate(t_data *data, int degrees, int pitch)
 {
-	float old_dir_x;
-	float old_plane_x;
-	float rotation;
-
-	old_dir_x = data->player->dir_x;
-	old_plane_x = data->player->plane_x;
-	rotation = data->player->rotation_speed;
-	data->player->dir_x = data->player->dir_x * cos(rotation) -
-							data->player->dir_y * sin(-rotation);
-	data->player->dir_y = old_dir_x * sin(-rotation) +
-						  data->player->dir_y * cos(-rotation);
-	data->player->plane_x = data->player->plane_x * cos(-rotation)-
-							data->player->plane_y * sin(-rotation);
-	data->player->plane_y = old_plane_x * sin(-rotation) +
-							data->player->plane_y * cos(-rotation);
-}
-
-void	ft_rotate_left(t_data *data)
-{
-	double old_dir_x;
-	double old_plane_x;
-	double rotation;
-
-	old_dir_x = data->player->dir_x;
-	old_plane_x = data->player->plane_x;
-	rotation = data->player->rotation_speed;
-	data->player->dir_x = data->player->dir_x * cos(rotation) -
-						  data->player->dir_y * sin(rotation);
-	data->player->dir_y = old_dir_x * sin(rotation) +
-						  data->player->dir_y * cos(rotation);
-	data->player->plane_x = data->player->plane_x * cos(rotation) -
-							data->player->plane_y * sin(rotation);
-	data->player->plane_y = old_plane_x * sin(rotation) +
-							data->player->plane_y * cos(rotation);
+	if (pitch)
+	{
+		if (data->player->pitch + degrees > 100 || data->player->pitch + degrees < -50)
+			return;
+		data->player->pitch += degrees;
+	}
+	else
+	{
+		if (data->player->dir - degrees < 0)
+			data->player->dir = 360 + (data->player->dir - 5);
+		else if (data->player->dir + degrees > 360)
+			data->player->dir = 360 - (data->player->dir - 5);
+		else
+			data->player->dir += degrees;
+	}
 }

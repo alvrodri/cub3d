@@ -6,21 +6,26 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:16:34 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/08 12:56:59 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/07 12:46:52 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 #define W 13
+//macos: 13
 #define A 0
+//macos: 0
 #define S 1
+//macos: 1
 #define D 2
+//macos: 2
 #define ESC 53
+//macos: 53
 #define SHIFT 257
-#define UP 126
-#define DOWN 125
-#define LEFT 123
+#define UP 65362
+#define DOWN 65364
+#define LEFT 53
 #define RIGHT 124
 
 int		ft_handle_key_press(int keycode, t_data *data)
@@ -33,8 +38,6 @@ int		ft_handle_key_press(int keycode, t_data *data)
 		data->player->keys->s = 1;
 	else if (keycode == D)
 		data->player->keys->d = 1;
-	else if (keycode == SHIFT)
-		data->player->keys->shift = 1;
 	else if (keycode == UP)
 		data->player->keys->up = 1;
 	else if (keycode == LEFT)
@@ -45,6 +48,7 @@ int		ft_handle_key_press(int keycode, t_data *data)
 		data->player->keys->down = 1;
 	else if (keycode == 3)
 		data->player->mouse->clicked = 1;
+	printf("%d\n", keycode);
 	return (1);
 }
 
@@ -60,8 +64,6 @@ int		ft_handle_key_release(int keycode, t_data *data)
 		data->player->keys->s = 0;
 	else if (keycode == D)
 		data->player->keys->d = 0;
-	else if (keycode == SHIFT)
-		data->player->keys->shift = 0;
 	else if (keycode == UP)
 		data->player->keys->up = 0;
 	else if (keycode == LEFT)

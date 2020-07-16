@@ -1,4 +1,4 @@
-SRCS		= cub3d.c render_utils.c events.c camera.c movement.c cub3d_misc.c map.c ./get_next_line/get_next_line.c
+SRCS		= cub3d.c map.c cub3d_misc.c ./get_next_line/get_next_line.c events.c movement.c
 OBJS		= ${SRCS:.c=.o}
 NAME		= cub3d
 CC			= cc
