@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/14 10:44:17 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/28 09:47:13 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	ft_move(t_data *data)
 	}
 	else if (data->player->keys->s == 1)
 	{
-		next_x = data->player->x - player_sin;
-		next_y = data->player->y - player_cos;
+		next_x = data->player->x - player_cos;
+		next_y = data->player->y - player_sin;
 
 		if (data->map->map[(int)next_y][(int)next_x] == '0')
 		{
@@ -80,9 +80,9 @@ void	ft_rotate(t_data *data, int degrees, int pitch)
 	else
 	{
 		if (data->player->dir - degrees < 0)
-			data->player->dir = 360 + (data->player->dir - 5);
+			data->player->dir = 360 + (data->player->dir - degrees);
 		else if (data->player->dir + degrees > 360)
-			data->player->dir = 360 - (data->player->dir - 5);
+			data->player->dir = 360 - (data->player->dir - degrees);
 		else
 			data->player->dir += degrees;
 	}

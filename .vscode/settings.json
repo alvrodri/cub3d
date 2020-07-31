@@ -4,6 +4,9 @@
         "iterator": "c",
         "string": "c",
         "string_view": "c",
-        "vector": "c"
+        "vector": "c",
+        "time.h": "c",
+        "cub3d.h": "c",
+        "chrono": "c"
     }
 }

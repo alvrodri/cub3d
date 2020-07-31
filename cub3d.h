@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/16 10:11:17 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/23 12:07:06 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_line {
 typedef struct	s_wall {
 	int			start;
 	int			end;
+	int			hit_side;
 	float		height;
 }				t_wall;
 
@@ -104,7 +105,7 @@ typedef struct	s_map {
 typedef	struct s_texture {
 	int			width;
 	int			height;
-	void		*image;
+	t_img		img;
 }				t_texture;
 
 typedef struct	s_rgb {
@@ -118,16 +119,18 @@ typedef struct	s_textures {
 	t_rgb		*ceiling;
 	t_texture	*stone;
 	t_texture	*brick;
-	t_texture	*player;
+	t_texture	*sprite;
 	t_texture	*fire;
 }				t_textures;
 
 typedef struct  s_data {
 	void		*mlx_ptr;
 	void		*mlx_win;
-	void		*mlx_img;
 	int			width;
 	int			height;
+	int			fps;
+	int			shader;
+	t_img		*img;
 	t_textures	*textures;
 	t_map		*map;
 	t_player	*player;
@@ -143,9 +146,8 @@ int				ft_handle_key_release(int keycode, t_data *data);
 int				ft_handle_button_press(int keycode, t_data *data);
 int				ft_handle_button_release(int keycode, t_data *data);
 void			ft_parse_map(t_data *data, char *map);
-void    		ft_start_raycasting(int x, t_data *data, t_ray *ray);
-void			ft_throw_ray(t_data *data, t_ray *ray);
-void			ft_check_hits(t_data *data, t_ray *ray);
+void    		ft_raycast(t_data *data, t_ray *ray);
+void    		ft_raycast_hits(t_data *data, t_ray *ray);
 void			ft_move(t_data *data);
 void			ft_rotate_right(t_data *data);
 void			ft_rotate_left(t_data *data);
@@ -156,9 +158,14 @@ void			ft_mouse(t_data *data);
 void			ft_accelerate(t_data *data);
 void			ft_draw_minimap(t_data *data);
 void			ft_draw_player(t_data *data);
-void  		 	pixel_put(t_img *img, int x, int y, int color);
+void  		 	ft_put_pixel(t_data *data, int x, int y, int color);
 void			ft_rotate(t_data *data, int degrees, int pitch);
 void			ft_move_sides(t_data *data);
-void    		ft_draw_line(t_img img, t_point start, t_point end, unsigned long color);
+void    		ft_draw_line(t_data *data, t_point start, t_point end, unsigned long color);
+void    		ft_set_spawn(t_data *data);
+void			ft_fps(t_data *data);
 t_point 		ft_create_point(float x, float y);
+unsigned long	ft_dimmed_color(unsigned long color, float distance);
+void			ft_draw_aaline(t_data *data, t_point point_a, t_point point_b, int r, int g, int b);
+void			ft_shadow_shader(t_data *data);
 #endif
