@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 10:50:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/28 09:31:58 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/31 10:02:54 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		ft_fps(t_data *data)
 	}
 	else
 		count++;
-	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 15, 0x000000, ft_strjoin("FPS: ", ft_itoa(data->fps)));
-	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 25, 0x000000, ft_strjoin("DIR: ", ft_itoa(data->player->dir)));
-	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 35, 0x000000, ft_strjoin("X, Y: ", ft_strjoin(ft_strjoin(ft_itoa(data->player->x), ", "), ft_itoa(data->player->y))));
+	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 15, 0x123456,ft_strjoin("FPS: ", ft_itoa(data->fps)));
+	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 25, 0x123456, ft_strjoin("DIR: ", ft_itoa(data->player->dir)));
+	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 35, 0x123456, ft_strjoin("X, Y: ", ft_strjoin(ft_strjoin(ft_itoa(data->player->x), ", "), ft_itoa(data->player->y))));
 }

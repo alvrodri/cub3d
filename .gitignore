@@ -1,4 +1,4 @@
-./*.o
-./*.a
-./cub3d
-./old
+*.o
+*.a
+cub3d
+old

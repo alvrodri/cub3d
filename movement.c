@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/28 09:47:13 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/31 13:29:05 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_move(t_data *data)
 			data->player->y += player_sin;
 		}
 	}
-	else if (data->player->keys->s == 1)
+	if (data->player->keys->s == 1)
 	{
 		next_x = data->player->x - player_cos;
 		next_y = data->player->y - player_sin;

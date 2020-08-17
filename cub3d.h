@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/23 12:07:06 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/31 11:50:09 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,5 @@ t_point 		ft_create_point(float x, float y);
 unsigned long	ft_dimmed_color(unsigned long color, float distance);
 void			ft_draw_aaline(t_data *data, t_point point_a, t_point point_b, int r, int g, int b);
 void			ft_shadow_shader(t_data *data);
+void 			ft_bresenham(t_data *data, t_point start, t_point end, unsigned long color);
 #endif

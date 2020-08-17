@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 10:28:41 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/28 12:38:57 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/31 13:28:03 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@ void	ft_init_textures(t_data *data)
 	textures->stone->img.addr = mlx_get_data_addr(textures->stone->img.img, &textures->stone->img.bits_per_pixel, &textures->stone->img.line_length, &textures->stone->img.endian);
 }
 
-void draw_texture(int x, int wallHeight, int texturePositionX, t_data *vars) {
-    int yIncrementer = (wallHeight * 2) / vars->textures->stone->height;
-    int y = vars->height / 2 - wallHeight;
+void	ft_draw_texture(t_data *data, int x, t_wall wall, int texture_x, t_ray *ray) {
+	t_texture *texture = data->textures->stone;
+	float yIncrementer = (wall.height * 2) / texture->height;
+    int y = floor((data->height - wall.height) / 2);
 
-    for(int i = 0; i < vars->textures->stone->height; i++) {
-        ft_draw_line(vars, ft_create_point(x, y), ft_create_point(x, y + (yIncrementer + 0.5)), ((int*)vars->textures->stone->img.addr)[i * vars->textures->stone->width + texturePositionX]);
+    for(int i = 0; i < texture->height; i++) {
+		ft_draw_line(data, ft_create_point(x, y), ft_create_point(x, y + (yIncrementer + 0.5)), wall.hit_side ? ft_dimmed_color(((int *)texture->img.addr)[i * texture->width + texture_x], ray->distance * 5) : ((int *)texture->img.addr)[i * texture->width + texture_x]);
         y += yIncrementer;
     }
 }
@@ -81,22 +82,38 @@ int		render(t_data *vars)
 	ray.dir = vars->player->dir - vars->player->fov / 2;
 	for (int x = 0; x < vars->width; x++)
 	{
-		ft_raycast(vars, &ray);
-		ft_raycast_hits(vars, &ray);
-		if (ray.hit == 1)
+		ray.x = vars->player->x;
+		ray.y = vars->player->y;
+		ray.cos = cos(deg_to_rad(ray.dir)) / 100;
+		ray.sin = sin(deg_to_rad(ray.dir)) / 100;
+		while (vars->map->map[(int)(ray.y)][(int)(ray.x)] == '0')
 		{
-			int color = ray.cardinal == 'N' ? 0xFF0000 : (ray.cardinal == 'E' ? 0x00FFFF : (ray.cardinal == 'S' ? 0x0000FF : 0xFFFFFF));
-			
-			ray.distance = sqrt(pow((vars->player->x - ray.x), 2) + pow((vars->player->y - ray.y), 2)) * cos(deg_to_rad(ray.dir - vars->player->dir));
-			wall.height = (vars->height / ray.distance);
-			wall.start = -(vars->height / ray.distance) / 2 + vars->player->pitch + vars->height / 2;
-			wall.end = (vars->height / ray.distance) / 2 +  vars->player->pitch + vars->height / 2;
-			wall.hit_side = (ray.cardinal == 'N' || ray.cardinal == 'S') ? 'Y' : 'X';
-			int texturePositionX = (int)(vars->textures->stone->width * (ray.x + ray.y)) % vars->textures->stone->width;
-			ft_draw_line(vars, ft_create_point(x, 0), ft_create_point(x, wall.start), ft_t_rgb_to_hex(vars->textures->ceiling));
-			ft_draw_line(vars, ft_create_point(x, wall.start), ft_create_point(x, wall.end), color);
-			ft_draw_line(vars, ft_create_point(x, wall.end), ft_create_point(x, vars->height), ft_t_rgb_to_hex(vars->textures->floor));
+			ray.x += ray.cos;
+			if (vars->map->map[(int)(ray.y)][(int)(ray.x)] != '0')
+			{
+				ray.cardinal = ray.cos < 0 ? 'W' : 'E';
+				ray.hit = 1;
+				break ;
+			}
+			ray.y += ray.sin;
+			if (vars->map->map[(int)(ray.y)][(int)(ray.x)] != '0')
+			{
+				ray.cardinal = ray.sin < 0 ? 'S' : 'N';
+				ray.hit = 1;
+			}
 		}
+		ray.hit = 1;
+		int color = ray.cardinal == 'N' ? 0xFF0000 : (ray.cardinal == 'E' ? 0x00FFFF : (ray.cardinal == 'S' ? 0x0000FF : 0xFFFFFF));
+		ray.distance = sqrt( pow((vars->player->x - ray.x), 2) + pow((vars->player->y - ray.y), 2)) * cos(deg_to_rad(ray.dir - vars->player->dir));
+		wall.height = (vars->height / ray.distance);
+		int wall_rest = floor((vars->height - wall.height) / 2);
+		wall.start = -(vars->height / ray.distance) / 2 /*+ vars->player->pitch*/ + vars->height / 2;
+		wall.hit_side = (ray.cardinal == 'N' || ray.cardinal == 'S') ? 'Y' : 'X';
+
+		ft_draw_line(vars, ft_create_point(x, 0), ft_create_point(x, wall_rest), ft_t_rgb_to_hex(vars->textures->ceiling));
+		ft_draw_line(vars, ft_create_point(x, wall_rest), ft_create_point(x, wall.start + wall.height), color);
+		//ft_draw_texture(vars, x, wall, (int)(((int)vars->textures->stone->width * ((int)ray.x + (int)ray.y)) % vars->textures->stone->width), &ray);
+		ft_draw_line(vars, ft_create_point(x, wall.start + wall.height), ft_create_point(x, vars->height), ft_t_rgb_to_hex(vars->textures->floor));
 		ray.dir += vars->player->fov / vars->width;
 	}
 	mlx_put_image_to_window(vars->mlx_ptr, vars->mlx_win, img.img, 0, 0);

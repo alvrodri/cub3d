@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 11:34:48 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/21 11:35:54 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/07/31 11:50:43 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,25 @@ t_point ft_create_point(float x, float y)
 	point.x = x;
 	point.y = y;
 	return point;
+}
+
+void ft_bresenham(t_data *data, t_point start, t_point end, unsigned long color)
+{
+	int m_new;
+	int slope_error;
+
+	m_new = 2 * (end.y - start.y);
+	slope_error = m_new - (end.x - start.x);
+	for (int x = start.x, y = start.y; x <= end.x; x++)
+	{
+		ft_put_pixel(data, x, y, color);
+		slope_error += m_new;
+		if (slope_error >= 0)
+		{
+			y++;
+			slope_error -= 2 * (end.x - start.x);
+		}
+	}
 }
 
 void ft_draw_line(t_data *data, t_point start, t_point end, unsigned long color)

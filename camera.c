@@ -2,7 +2,7 @@
 
 void	ft_mouse(t_data *data)
 {
-	t_mouse	*mouse;
+	t_mouse		*mouse;
 	float		x_diff;
 	float		y_diff;
 
