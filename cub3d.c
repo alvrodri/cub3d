@@ -6,12 +6,11 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 10:28:41 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/31 13:28:03 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/08/28 12:28:41 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <pthread.h>
 
 void    ft_init(t_data *data)
 {
@@ -30,11 +29,9 @@ void    ft_init(t_data *data)
 	data->player->mouse->clicked = 0;
 	data->player->x = -1;
 	data->player->y = -1;
-	data->player->dir = 0;
+	data->player->dir = 90;
 	data->player->fov = 60;
 	data->player->pitch = 0;
-	data->fps = -1;
-	data->shader = -1;
 }
 
 void	ft_init_textures(t_data *data)
@@ -43,20 +40,32 @@ void	ft_init_textures(t_data *data)
 	
 	textures = data->textures;
 
-	textures->stone = malloc(sizeof(t_texture));
-	textures->stone->img.img = mlx_png_file_to_image(data->mlx_ptr, "./textures/brick.png", &textures->stone->width, &textures->stone->height);
-	textures->stone->img.addr = mlx_get_data_addr(textures->stone->img.img, &textures->stone->img.bits_per_pixel, &textures->stone->img.line_length, &textures->stone->img.endian);
+	textures->north = malloc(sizeof(t_texture));
+	textures->north->img.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/stone_texture.xpm", &textures->north->width, &textures->north->height);
+	textures->north->img.addr = (unsigned int*) mlx_get_data_addr(textures->north->img.img, &textures->north->img.bits_per_pixel, &textures->north->img.line_length, &textures->north->img.endian);
+	
+	textures->south = malloc(sizeof(t_texture));
+	textures->south->img.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/mud_texture.xpm", &textures->south->width, &textures->south->height);
+	textures->south->img.addr = (unsigned int*) mlx_get_data_addr(textures->south->img.img, &textures->south->img.bits_per_pixel, &textures->south->img.line_length, &textures->south->img.endian);
+	
+	textures->east = malloc(sizeof(t_texture));
+	textures->east->img.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/white_texture.xpm", &textures->east->width, &textures->east->height);
+	textures->east->img.addr = (unsigned int*) mlx_get_data_addr(textures->east->img.img, &textures->east->img.bits_per_pixel, &textures->east->img.line_length, &textures->east->img.endian);
+
+	textures->west = malloc(sizeof(t_texture));
+	textures->west->img.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/brick_texture.xpm", &textures->west->width, &textures->west->height);
+	textures->west->img.addr = (unsigned int*) mlx_get_data_addr(textures->west->img.img, &textures->west->img.bits_per_pixel, &textures->west->img.line_length, &textures->west->img.endian);
 }
 
-void	ft_draw_texture(t_data *data, int x, t_wall wall, int texture_x, t_ray *ray) {
-	t_texture *texture = data->textures->stone;
-	float yIncrementer = (wall.height * 2) / texture->height;
-    int y = floor((data->height - wall.height) / 2);
+void	ft_draw_texture(t_data *data, t_wall wall, t_texture texture, int x) {
+	float y_increment = (wall.height * 2) / texture.height;
+    float y = data->height / 2 - wall.height;
 
-    for(int i = 0; i < texture->height; i++) {
-		ft_draw_line(data, ft_create_point(x, y), ft_create_point(x, y + (yIncrementer + 0.5)), wall.hit_side ? ft_dimmed_color(((int *)texture->img.addr)[i * texture->width + texture_x], ray->distance * 5) : ((int *)texture->img.addr)[i * texture->width + texture_x]);
-        y += yIncrementer;
-    }
+	for (int i = 0; i < texture.height; i++)
+	{
+		ft_draw_line(data, ft_create_point(x, y), ft_create_point(x, y + y_increment), texture.img.addr[i * texture.width + wall.texture_x]);
+		y += y_increment;
+	}
 }
 
 int		render(t_data *vars)
@@ -66,7 +75,7 @@ int		render(t_data *vars)
 	t_wall	wall;
 
 	img.img = mlx_new_image(vars->mlx_ptr, vars->width, vars->height);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	img.addr = (unsigned int *)mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	vars->img = &img;
 	ft_move(vars);
 	ft_move_sides(vars);
@@ -84,36 +93,41 @@ int		render(t_data *vars)
 	{
 		ray.x = vars->player->x;
 		ray.y = vars->player->y;
-		ray.cos = cos(deg_to_rad(ray.dir)) / 100;
-		ray.sin = sin(deg_to_rad(ray.dir)) / 100;
+		ray.cos = cos(ray.dir * M_PI / 180) / 128;
+		ray.sin = sin(ray.dir * M_PI / 180) / 128;
 		while (vars->map->map[(int)(ray.y)][(int)(ray.x)] == '0')
 		{
 			ray.x += ray.cos;
 			if (vars->map->map[(int)(ray.y)][(int)(ray.x)] != '0')
 			{
 				ray.cardinal = ray.cos < 0 ? 'W' : 'E';
-				ray.hit = 1;
 				break ;
 			}
 			ray.y += ray.sin;
 			if (vars->map->map[(int)(ray.y)][(int)(ray.x)] != '0')
-			{
 				ray.cardinal = ray.sin < 0 ? 'S' : 'N';
-				ray.hit = 1;
-			}
 		}
-		ray.hit = 1;
-		int color = ray.cardinal == 'N' ? 0xFF0000 : (ray.cardinal == 'E' ? 0x00FFFF : (ray.cardinal == 'S' ? 0x0000FF : 0xFFFFFF));
-		ray.distance = sqrt( pow((vars->player->x - ray.x), 2) + pow((vars->player->y - ray.y), 2)) * cos(deg_to_rad(ray.dir - vars->player->dir));
-		wall.height = (vars->height / ray.distance);
-		int wall_rest = floor((vars->height - wall.height) / 2);
-		wall.start = -(vars->height / ray.distance) / 2 /*+ vars->player->pitch*/ + vars->height / 2;
+		ray.distance = sqrt(pow(vars->player->x - ray.x, 2) + pow(vars->player->y - ray.y, 2));
+		ray.distance = ray.distance * cos((ray.dir - vars->player->dir) * M_PI / 180);
+		wall.height = (int)(vars->height / 2 / ray.distance);
 		wall.hit_side = (ray.cardinal == 'N' || ray.cardinal == 'S') ? 'Y' : 'X';
 
-		ft_draw_line(vars, ft_create_point(x, 0), ft_create_point(x, wall_rest), ft_t_rgb_to_hex(vars->textures->ceiling));
-		ft_draw_line(vars, ft_create_point(x, wall_rest), ft_create_point(x, wall.start + wall.height), color);
-		//ft_draw_texture(vars, x, wall, (int)(((int)vars->textures->stone->width * ((int)ray.x + (int)ray.y)) % vars->textures->stone->width), &ray);
-		ft_draw_line(vars, ft_create_point(x, wall.start + wall.height), ft_create_point(x, vars->height), ft_t_rgb_to_hex(vars->textures->floor));
+		t_texture *texture;
+		if (ray.cardinal == 'N')
+			texture = vars->textures->north;
+		else if (ray.cardinal == 'S')
+			texture = vars->textures->south;
+		else if (ray.cardinal == 'E')
+			texture = vars->textures->east;
+		else
+			texture = vars->textures->west;
+
+		wall.texture_x = (int)(fmod(texture->width * (ray.x + ray.y), texture->width));
+
+		ft_draw_line(vars, ft_create_point(x, 0), ft_create_point(x, vars->height / 2 - wall.height), ft_t_rgb_to_hex(vars->textures->ceiling));
+		ft_draw_texture(vars, wall, *texture, x);
+		ft_draw_line(vars, ft_create_point(x, vars->height / 2 + wall.height), ft_create_point(x, vars->height), ft_t_rgb_to_hex(vars->textures->floor));
+
 		ray.dir += vars->player->fov / vars->width;
 	}
 	mlx_put_image_to_window(vars->mlx_ptr, vars->mlx_win, img.img, 0, 0);

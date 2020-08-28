@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:16:34 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/23 09:58:30 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/08/28 10:40:02 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int		ft_handle_key_press(int keycode, t_data *data)
 		data->player->keys->right = 1;
 	else if (keycode == DOWN)
 		data->player->keys->down = 1;
-	else if (keycode == 3)
-		data->shader = data->shader == -1 ? 1 : (data->shader == 1 ? 2 : -1);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/07/31 11:50:09 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/08/28 11:51:03 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct	s_mouse {
 
 typedef struct	s_img {
 	void *img;
-	char *addr;
+	unsigned int *addr;
 	int bits_per_pixel;
 	int line_length;
 	int endian;
@@ -67,8 +67,7 @@ typedef struct s_line {
 } 				t_line;
 
 typedef struct	s_wall {
-	int			start;
-	int			end;
+	int			texture_x;
 	int			hit_side;
 	float		height;
 }				t_wall;
@@ -90,7 +89,6 @@ typedef struct	s_ray {
 	float		cos;
 	float		distance;
 	float		dir;
-	int			hit;
 	int			cardinal;
 }				t_ray;
 
@@ -117,10 +115,10 @@ typedef struct	s_rgb {
 typedef struct	s_textures {
 	t_rgb		*floor;
 	t_rgb		*ceiling;
-	t_texture	*stone;
-	t_texture	*brick;
-	t_texture	*sprite;
-	t_texture	*fire;
+	t_texture	*north;
+	t_texture	*east;
+	t_texture	*south;
+	t_texture	*west;
 }				t_textures;
 
 typedef struct  s_data {
@@ -169,4 +167,5 @@ unsigned long	ft_dimmed_color(unsigned long color, float distance);
 void			ft_draw_aaline(t_data *data, t_point point_a, t_point point_b, int r, int g, int b);
 void			ft_shadow_shader(t_data *data);
 void 			ft_bresenham(t_data *data, t_point start, t_point end, unsigned long color);
+float			ft_pythagoras(int a, int b);
 #endif
