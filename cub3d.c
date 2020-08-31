@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 10:28:41 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/08/28 12:28:41 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/08/31 13:27:48 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ void    ft_init(t_data *data)
 	data->player->mouse->clicked = 0;
 	data->player->x = -1;
 	data->player->y = -1;
-	data->player->dir = 90;
+	data->player->dir = 0;
 	data->player->fov = 60;
 	data->player->pitch = 0;
+	data->ray.distance = 0;
 }
 
 void	ft_init_textures(t_data *data)
@@ -63,7 +64,8 @@ void	ft_draw_texture(t_data *data, t_wall wall, t_texture texture, int x) {
 
 	for (int i = 0; i < texture.height; i++)
 	{
-		ft_draw_line(data, ft_create_point(x, y), ft_create_point(x, y + y_increment), texture.img.addr[i * texture.width + wall.texture_x]);
+		ft_draw_line(data, ft_create_point(x, y), ft_create_point(x, y + y_increment),
+			texture.img.addr[i * texture.width + wall.texture_x]);
 		y += y_increment;
 	}
 }
@@ -79,7 +81,7 @@ int		render(t_data *vars)
 	vars->img = &img;
 	ft_move(vars);
 	ft_move_sides(vars);
-	ft_mouse(vars);
+//	ft_mouse(vars);
 	if (vars->player->keys->up == 1)
 		ft_rotate(vars, 5, 1);
 	if (vars->player->keys->down == 1)
@@ -129,6 +131,8 @@ int		render(t_data *vars)
 		ft_draw_line(vars, ft_create_point(x, vars->height / 2 + wall.height), ft_create_point(x, vars->height), ft_t_rgb_to_hex(vars->textures->floor));
 
 		ray.dir += vars->player->fov / vars->width;
+		if (x == vars->width / 2)
+			vars->ray = ray;
 	}
 	mlx_put_image_to_window(vars->mlx_ptr, vars->mlx_win, img.img, 0, 0);
 	ft_fps(vars);

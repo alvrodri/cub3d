@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/08/28 09:25:37 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/08/31 11:01:48 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int				ft_close(t_data *data, int error)
 	if (error)
 		write(1, "Error\n", 6);
 	mlx_mouse_show();
+	mlx_destroy_window(data->mlx_ptr, data->mlx_win);
 	exit(1);
 	return (1);
 }

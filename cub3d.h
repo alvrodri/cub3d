@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/08/28 11:51:03 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/08/31 10:59:39 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ typedef struct  s_data {
 	t_textures	*textures;
 	t_map		*map;
 	t_player	*player;
+	t_wall		*wall;
+	t_ray		ray;
 }				t_data;
 
 unsigned	int	ft_get_color(t_data *data, int x, int y);
