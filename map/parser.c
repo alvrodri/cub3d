@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/12 19:29:04 by alvaro            #+#    #+#             */
-/*   Updated: 2020/08/31 11:42:27 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/09/01 09:59:15 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	ft_second_read(t_data *data, int fd)
 
 	i = 0;
 	j = 0;
-	map = malloc(data->map->y * sizeof(char *));
+	map = malloc(data->map.y * sizeof(char *));
 	while (get_next_line(fd, &line))
 	{
 		if (ft_strchr("012", line[0]))
@@ -72,23 +72,23 @@ static void	ft_second_read(t_data *data, int fd)
 		}
 	}
 
-	data->map->map = map;
+	data->map.map = map;
 	ft_set_spawn(data);
 }
 
 static void	ft_first_read(t_data *data, int fd, char **line, char *map_name)
 {
-	data->map->x = 0;
-	data->map->y = 0;
+	data->map.x = 0;
+	data->map.y = 0;
 	while (get_next_line(fd, line) > 0)
 	{
-		if (ft_strlen_char(*line, ' ') > data->map->x)
-			data->map->x = ft_strlen_char(*line, ' ');
-		data->map->y++;
+		if (ft_strlen_char(*line, ' ') > data->map.x)
+			data->map.x = ft_strlen_char(*line, ' ');
+		data->map.y++;
 	}
-	if (ft_strlen_char(*line, ' ') > data->map->x)
-			data->map->x = ft_strlen_char(*line, ' ');
-	data->map->y++;
+	if (ft_strlen_char(*line, ' ') > data->map.x)
+			data->map.x = ft_strlen_char(*line, ' ');
+	data->map.y++;
 	ft_second_read(data, open(map_name, O_RDONLY));
 }
 
@@ -103,9 +103,7 @@ void	ft_parse_map(t_data *data, char *map_name)
 	fd = open(map_name, O_RDONLY);
 	if (fd == -1)
 		ft_close(data, 1);
-	data->map->size = 24;
-	data->textures->ceiling = malloc(sizeof(t_texture));
-	data->textures->floor = malloc(sizeof(t_texture));
+	data->map.size = 24;
 	while ((read = get_next_line(fd, &line)) == 1)
 	{
 		if (line[0] == 'R')
@@ -116,17 +114,17 @@ void	ft_parse_map(t_data *data, char *map_name)
 		else if (line[0] == 'F')
 		{
 			split = ft_split(ft_split(line, ' ')[1], ',');
-			data->textures->floor->r = ft_atoi(split[0]);
-			data->textures->floor->g = ft_atoi(split[1]);
-			data->textures->floor->b = ft_atoi(split[2]);
+			data->textures.floor.r = ft_atoi(split[0]);
+			data->textures.floor.g = ft_atoi(split[1]);
+			data->textures.floor.b = ft_atoi(split[2]);
 			free(split);
 		}
 		else if (line[0] == 'C')
 		{
 			split = ft_split(ft_split(line, ' ')[1], ',');
-			data->textures->ceiling->r = ft_atoi(split[0]);
-			data->textures->ceiling->g = ft_atoi(split[1]);
-			data->textures->ceiling->b = ft_atoi(split[2]);
+			data->textures.ceiling.r = ft_atoi(split[0]);
+			data->textures.ceiling.g = ft_atoi(split[1]);
+			data->textures.ceiling.b = ft_atoi(split[2]);
 			free(split);
 		}
 		else if (ft_strchr("012", line[0]))

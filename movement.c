@@ -6,41 +6,55 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 16:39:07 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/08/31 12:41:34 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/09/07 12:41:43 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	ft_movement(t_data *data)
+{
+	ft_move(data);
+	ft_move_sides(data);
+	if (data->player.keys.up == 1)
+		ft_rotate(data, 5, 1);
+	if (data->player.keys.down == 1)
+		ft_rotate(data, -5, 1);
+	if (data->player.keys.left == 1)
+		ft_rotate(data, -5, 0);
+	if (data->player.keys.right == 1)
+		ft_rotate(data, 5, 0);
+}
+
 void	ft_move(t_data *data)
 {
-	float player_cos = cos(deg_to_rad(data->player->dir)) * PLAYER_SPEED;
-	float player_sin = sin(deg_to_rad(data->player->dir)) * PLAYER_SPEED;
+	float player_cos = cos(deg_to_rad(data->player.dir)) * PLAYER_SPEED;
+	float player_sin = sin(deg_to_rad(data->player.dir)) * PLAYER_SPEED;
 	float next_x;
 	float next_y;
 
-	if (data->player->keys->w == 1)
+	if (data->player.keys.w == 1)
 	{
-		next_x = data->player->x + player_cos;
-		next_y = data->player->y + player_sin;
+		next_x = data->player.x + player_cos;
+		next_y = data->player.y + player_sin;
 
 		if (data->ray.distance <= 0.5)
 			return ;
-		if (data->map->map[(int)next_y][(int)next_x] == '0')
+		if (data->map.map[(int)next_y][(int)next_x] == '0')
 		{
-			data->player->x += player_cos;
-			data->player->y += player_sin;
+			data->player.x += player_cos;
+			data->player.y += player_sin;
 		}
 	}
-	if (data->player->keys->s == 1)
+	if (data->player.keys.s == 1)
 	{
-		next_x = data->player->x - player_cos;
-		next_y = data->player->y - player_sin;
+		next_x = data->player.x - player_cos;
+		next_y = data->player.y - player_sin;
 
-		if (data->map->map[(int)next_y][(int)next_x] == '0')
+		if (data->map.map[(int)next_y][(int)next_x] == '0')
 		{
-			data->player->x -= player_cos;
-			data->player->y -= player_sin;
+			data->player.x -= player_cos;
+			data->player.y -= player_sin;
 		}
 	}
 }
@@ -50,25 +64,25 @@ void	ft_move_sides(t_data *data)
 	float 	player_cos; 
 	float	player_sin;
 	
-	if (data->player->keys->a == 1)
+	if (data->player.keys.a == 1)
 	{
-		player_cos = cos(deg_to_rad(data->player->dir - 90)) * PLAYER_SPEED;
-		player_sin = sin(deg_to_rad(data->player->dir - 90)) * PLAYER_SPEED;
-		if (data->map->map[(int)(data->player->y + player_sin)]
-			[(int)(data->player->x + player_cos)] != '0')
+		player_cos = cos(deg_to_rad(data->player.dir - 90)) * PLAYER_SPEED;
+		player_sin = sin(deg_to_rad(data->player.dir - 90)) * PLAYER_SPEED;
+		if (data->map.map[(int)(data->player.y + player_sin)]
+			[(int)(data->player.x + player_cos)] != '0')
 			return ;
-		data->player->x += player_cos;
-		data->player->y += player_sin;
+		data->player.x += player_cos;
+		data->player.y += player_sin;
 	}
-	else if (data->player->keys->d == 1)
+	else if (data->player.keys.d == 1)
 	{
-		player_cos = cos(deg_to_rad(data->player->dir + 90)) * PLAYER_SPEED;
-		player_sin = sin(deg_to_rad(data->player->dir + 90)) * PLAYER_SPEED;
-		if (data->map->map[(int)(data->player->y + player_sin)]
-			[(int)(data->player->x + player_cos)] != '0')
+		player_cos = cos(deg_to_rad(data->player.dir + 90)) * PLAYER_SPEED;
+		player_sin = sin(deg_to_rad(data->player.dir + 90)) * PLAYER_SPEED;
+		if (data->map.map[(int)(data->player.y + player_sin)]
+			[(int)(data->player.x + player_cos)] != '0')
 			return ;
-		data->player->x += player_cos;
-		data->player->y += player_sin;
+		data->player.x += player_cos;
+		data->player.y += player_sin;
 	}
 }
 
@@ -76,17 +90,17 @@ void	ft_rotate(t_data *data, int degrees, int pitch)
 {
 	if (pitch)
 	{
-		if (data->player->pitch + degrees > 100 || data->player->pitch + degrees < -50)
+		if (data->player.pitch + degrees > 100 || data->player.pitch + degrees < -50)
 			return;
-		data->player->pitch += degrees;
+		data->player.pitch += degrees;
 	}
 	else
 	{
-		if (data->player->dir - degrees < 0)
-			data->player->dir = 360 + (data->player->dir - degrees);
-		else if (data->player->dir + degrees > 360)
-			data->player->dir = 360 - (data->player->dir - degrees);
+		if (data->player.dir - degrees < 0)
+			data->player.dir = 360 + (data->player.dir - degrees);
+		else if (data->player.dir + degrees > 360)
+			data->player.dir = 360 - (data->player.dir - degrees);
 		else
-			data->player->dir += degrees;
+			data->player.dir += degrees;
 	}
 }

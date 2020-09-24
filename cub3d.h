@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/08/31 10:59:39 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/09/11 11:28:17 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ typedef	struct	s_player {
 	float		dir;
 	float		fov;
 	float		pitch;
-	t_keys		*keys;
-	t_mouse		*mouse;
+	t_keys		keys;
+	t_mouse		mouse;
 }				t_player;
 
 typedef struct	s_ray {
@@ -112,13 +112,31 @@ typedef struct	s_rgb {
 	int			b;
 }				t_rgb;
 
+typedef struct	s_sprite {
+	int			hit;
+	float		ray_x;
+	float		ray_y;
+	float		map_x;
+	float		map_y;
+	float		distance;
+	float		draw_height;
+	float		draw_width;
+	float		screen_x;
+	float		screen_y;
+	float		angle;
+	float		angle0;
+	float		angle1;
+	float		angle2;
+	t_texture	texture;
+}				t_sprite;
+
 typedef struct	s_textures {
-	t_rgb		*floor;
-	t_rgb		*ceiling;
-	t_texture	*north;
-	t_texture	*east;
-	t_texture	*south;
-	t_texture	*west;
+	t_rgb		floor;
+	t_rgb		ceiling;
+	t_texture	north;
+	t_texture	east;
+	t_texture	south;
+	t_texture	west;
 }				t_textures;
 
 typedef struct  s_data {
@@ -128,17 +146,17 @@ typedef struct  s_data {
 	int			height;
 	int			fps;
 	int			shader;
-	t_img		*img;
-	t_textures	*textures;
-	t_map		*map;
-	t_player	*player;
-	t_wall		*wall;
+	t_player	player;
+	t_img		img;
+	t_textures	textures;
+	t_map		map;
 	t_ray		ray;
+	t_sprite	sprite;
 }				t_data;
 
 unsigned	int	ft_get_color(t_data *data, int x, int y);
 unsigned	int	ft_rgb_to_hex(int r, int g, int b);
-unsigned	int	ft_t_rgb_to_hex(t_rgb *rgb);
+unsigned	int	ft_t_rgb_to_hex(t_rgb rgb);
 float			deg_to_rad(float deg);
 int				ft_close(t_data *data, int error);
 int				ft_handle_key_press(int keycode, t_data *data);
@@ -168,6 +186,15 @@ t_point 		ft_create_point(float x, float y);
 unsigned long	ft_dimmed_color(unsigned long color, float distance);
 void			ft_draw_aaline(t_data *data, t_point point_a, t_point point_b, int r, int g, int b);
 void			ft_shadow_shader(t_data *data);
-void 			ft_bresenham(t_data *data, t_point start, t_point end, unsigned long color);
+void    		ft_init_texture(t_data *data, t_texture *texture, char *path);
+void			ft_draw_texture(t_data *data, t_wall wall, t_texture texture, int x);
+
+void			ft_movement(t_data *data);
+
+void			ft_calculate_ray(t_data *data, t_ray *ray);
+void    		ft_check_walls(t_data *data, t_ray *ray);
+void			ft_select_texture(t_data *data, t_ray *ray, t_texture *texture);
+void			ft_calculate_walls(t_data *data, t_wall *wall, t_ray *ray);
+
 float			ft_pythagoras(int a, int b);
 #endif

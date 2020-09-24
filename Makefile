@@ -1,5 +1,8 @@
 SRCS		= cub3d.c events.c camera.c movement.c \
 				./map/parser.c ./map/spawn_parser.c \
+				./raycasting/raycasting.c \
+				textures.c \
+				./render/render.c \
 				./utils/fps_counter.c ./utils/render_utils.c ./utils/misc.c \
 				./get_next_line/get_next_line.c
 OBJS		= ${SRCS:.c=.o}

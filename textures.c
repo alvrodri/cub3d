@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.c                                           :+:      :+:    :+:   */
+/*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/01 10:25:24 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/09/01 10:25:30 by alvrodri         ###   ########.fr       */
+/*   Created: 2020/09/01 10:18:28 by alvrodri          #+#    #+#             */
+/*   Updated: 2020/09/01 10:26:38 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_mouse(t_data *data)
+void	ft_init_texture(t_data *data, t_texture *texture, char *path)
 {
-	t_mouse		*mouse;
-	float		x_diff;
-	float		y_diff;
-
-	mouse = &data->player.mouse;
-	mlx_mouse_get_pos(data->mlx_win, &mouse->x, &mouse->y);
-	x_diff = mouse->x - data->width / 2;
-	y_diff = mouse->y - data->height / 2;
-	if (x_diff)
-		ft_rotate(data, x_diff, 0);
-	if (y_diff)
-		ft_rotate(data, -(y_diff), 1);
-	mlx_mouse_move(data->mlx_win, data->width / 2, data->height / 2);
+	(*texture).img.img = mlx_xpm_file_to_image(data->mlx_ptr, path,
+		&(*texture).width, &(*texture).height);
+	(*texture).img.addr = (unsigned int*)mlx_get_data_addr((*texture).img.img,
+		&(*texture).img.bits_per_pixel, &(*texture).img.line_length,
+			&(*texture).img.endian);
 }

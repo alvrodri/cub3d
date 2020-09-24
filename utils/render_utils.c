@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 11:34:48 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/08/28 11:02:11 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/09/01 11:59:24 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void    ft_draw_line(t_data *data, t_point start, t_point end, unsigned long col
     i = 0;
     while (i <= line.steps)
     {
-        //my_mlx_pixel_put(img, line.x, line.y, colour);
 		ft_put_pixel(data, x, y, color);
         x += line.x_inc;
         y += line.y_inc;
@@ -52,5 +51,5 @@ void ft_put_pixel(t_data *data, int x, int y, int color)
 
 	if (x < 0 || x >= data->width || y < 0 || y >= data->height)
 		return;
-	((int *)data->img->addr)[y * data->width + x] = color;
+	data->img.addr[y * data->width + x] = color;
 }
