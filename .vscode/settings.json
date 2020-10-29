@@ -8,6 +8,7 @@
         "time.h": "c",
         "cub3d.h": "c",
         "chrono": "c",
-        "complex": "c"
+        "complex": "c",
+        "libft.h": "c"
     }
 }
