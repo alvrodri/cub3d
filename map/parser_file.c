@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 10:09:30 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/10/29 12:51:51 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/11/02 10:20:34 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ int		detect_line_type(t_data *vars, char *str)
 	return (0);
 }
 
-int		check_file(t_data *vars, int fd)
+int		check_file(t_data *vars, char *map, int fd)
 {
 	char	*line;
 	int		ret;
 	int		correct_line;
 
+	if (check_extension(map, ".cub") == 0)
+		return (0);
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
 		correct_line = detect_line_type(vars, line);
@@ -110,7 +112,7 @@ int		read_file(t_data *vars, int args_n, char **args)
 	initialize_vars(vars);
 	if ((fd = open(args[1], O_RDONLY)) == -1)
 		return (0);
-	if (!check_file(vars, fd))
+	if (!check_file(vars, args[1], fd))
 		return (0);
 	if (close(fd) == -1)
 		return (0);
@@ -118,7 +120,7 @@ int		read_file(t_data *vars, int args_n, char **args)
 		return (0);
 	if (!parse_map(vars, fd))
 		return (0);
-	flood_fill(vars, vars->player.x, vars->player.y, '0');
+	flood_fill(vars, vars->player.y, vars->player.x, '0');
 	map_ok = check_map(vars);
 	convert_map(vars);
 	vars->sprites = malloc(sizeof(t_sprite) * vars->sprites_n);

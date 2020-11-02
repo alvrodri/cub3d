@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 10:19:38 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/10/29 12:56:17 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/11/02 10:38:28 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,23 @@ int	save_texture_dir(t_data *vars, int type, char *str)
 	if (!is_null_texture(vars, type))
 		return (0);
 	if (type == 1)
-		vars->textures.north.path = ft_strdup(str);
+		vars->textures.north.path = ft_strtrim(str, " ");
 	else if (type == 2)
-		vars->textures.south.path = ft_strdup(str);
+		vars->textures.south.path = ft_strtrim(str, " ");
 	else if (type == 3)
-		vars->textures.east.path = ft_strdup(str);
+		vars->textures.east.path = ft_strtrim(str, " ");
 	else if (type == 4)
-		vars->textures.west.path = ft_strdup(str);
+		vars->textures.west.path = ft_strtrim(str, " ");
 	else
-		vars->textures.sprite.path = ft_strdup(str);
+		vars->textures.sprite.path = ft_strtrim(str, " ");
 	return (1);
 }
 
 int	ft_init_texture(t_data *data, t_texture *texture, char *path)
 {
 	int	fd;
-	int	len;
 
-	len = ft_strlen(path);
-	if (path[len - 1] != 'm')
+	if (check_extension(path, ".xpm") == 0)
 		return (0);
 	if ((fd = open(path, O_RDONLY)) == -1)
 	{
@@ -59,6 +57,8 @@ int	ft_init_texture(t_data *data, t_texture *texture, char *path)
 	}
 	texture->img.img = mlx_xpm_file_to_image(data->mlx_ptr, texture->path,
 							&texture->width, &texture->height);
+	if (!texture->img.img)
+		return (0);
 	texture->img.addr = (unsigned int *)mlx_get_data_addr(texture->img.img,
 		&texture->img.bits_per_pixel, &texture->img.line_length,
 			&texture->img.endian);

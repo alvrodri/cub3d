@@ -6,11 +6,31 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 11:23:56 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/10/26 10:39:36 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/11/02 10:39:05 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int		check_extension(char *path, char *extension)
+{
+	size_t	len;
+	size_t	extension_len;
+	char	*tmp;
+
+	len = ft_strlen(path);
+	extension_len = ft_strlen(extension);
+	if (len < extension_len)
+		return (0);
+	tmp = ft_substr(path, len - extension_len, len);
+	if (ft_strncmp(tmp, extension, extension_len) == 0)
+	{
+		free(tmp);
+		return (1);
+	}
+	free(tmp);
+	return (0);
+}
 
 int		check_variables(t_data *vars)
 {

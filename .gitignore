@@ -1,4 +1,4 @@
 *.o
 *.a
-cub3d
-old
+cub3D
+.vscode/

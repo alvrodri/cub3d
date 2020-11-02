@@ -6,7 +6,7 @@
 /*   By: alvrodri <alvrodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 18:25:06 by alvrodri          #+#    #+#             */
-/*   Updated: 2020/10/29 12:00:13 by alvrodri         ###   ########.fr       */
+/*   Updated: 2020/11/02 10:16:15 by alvrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,4 +256,5 @@ void						ft_calculate_walls(t_data *data, t_wall *wall,
 							t_ray *ray);
 int							render(t_data *data);
 void						ft_screenshot(t_data *data);
+int							check_extension(char *path, char *extension);
 #endif

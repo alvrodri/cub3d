@@ -10,7 +10,7 @@ SRCS		= cub3d.c events.c movement.c \
 				./utils/render_utils.c ./utils/misc.c \
 				./get_next_line/get_next_line.c
 OBJS		= ${SRCS:.c=.o}
-NAME		= cub3d
+NAME		= cub3D
 CC			= cc
 RM			= rm -f
 CFLAGS		= -g3 -Wall -Werror -Wextra
@@ -24,7 +24,7 @@ ${NAME}:	${OBJS}
 			${MAKE} -C ./libft
 			mv ./minilibx/libmlx.a .
 			mv ./libft/libft.a .
-			${CC} -fsanitize=address -o ${NAME} ${OBJS} ${FRAMEWORK}
+			${CC} -o ${NAME} ${OBJS} ${FRAMEWORK}
 
 all:		${NAME}
 
